@@ -12,9 +12,12 @@ class Router {
 		app.get('/update', Controller.update);
 		app.get('/version', Controller.version);
 
+		app.get('/logout', Controller.logout);
 		app.get('/login', Controller.login);
 		app.post('/login', Controller.loginPost);
-		app.get('/logout', Controller.logout);
+
+		app.get('/api', Controller.api);
+		app.post('/api', Controller.apiPost);
 
 
 		// // test app
@@ -22,25 +25,6 @@ class Router {
 		// app.get('/test/id', Controller.testId);
 		// app.get('/test/:id', Controller.testById);
 		// app.get('/test/foo/:id', Controller.testFooById);
-
-		// app.get('/ping', function (req:js.npm.express.Request, res:Response) {
-		// 	res.send('pong');
-		// 	io.sockets.emit('pong');
-		// });
-
-
-		// // get
-		// app.get('/', function (req:js.npm.express.Request, res:Response) {
-		// 	// res.send('Welcome to the Heroku server - ${App.PROJECT_NAME}');
-		// 	res.sendfile(Node.__dirname + '/public/index.html');
-		// });
-		// app.get('/likes', function (req:js.npm.express.Request, res:Response) {
-		// 	res.send('likes');
-		// 	console.log('likes');
-		// 	airtableList();
-		// 	// io.sockets.emit('pong');
-		// });
-
 
 		// app.get('/secure', function (req, res, next) {
 		// 	res.sendfile(Node.__dirname + '/public/secure.html');

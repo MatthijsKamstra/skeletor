@@ -16,179 +16,53 @@ class Controller {
 		res.sendfile(Node.__dirname + '/public/_index.html');
 	}
 
+	public static function logout(req:Request,res:Response) {
+		// res.sendfile(Node.__dirname + '/public/login.html');
+		res.redirect('/');
+	}
 	public static function login(req:Request,res:Response) {
 		res.sendfile(Node.__dirname + '/public/login.html');
 	}
 	public static function loginPost(req:Request,res:Response) {
 		res.sendfile(Node.__dirname + '/public/secure.html');
 	}
-	public static function logout(req:Request,res:Response) {
-		// res.sendfile(Node.__dirname + '/public/login.html');
-		res.redirect('/');
+
+	public static function api(req:Request,res:Response) {
+		res.send('api: ${App.BUILD}');
+	}
+	public static function apiPost(req:Request,res:Response) {
+		console.log('api');
+		console.log(req);
+		console.log(res);
+		// console.log(res.body);
+		// console.log(req.body);
 	}
 
 	public static function test(req:Request,res:Response) {
 		res.sendfile(Node.__dirname + '/public/test.html');
 	}
 	public static function ping(req:Request,res:Response) {
-		var io = MainHeroku.io;
 		res.send('test:ping');
+		var io = MainHeroku.io;
 		io.sockets.emit('test:ping', App.PROJECT_NAME);
-
-		// res.sendfile(Node.__dirname + '/public/test.html');
 	}
 	public static function version(req:Request,res:Response) {
 		res.send('version: ${App.BUILD}');
-		// io.sockets.emit('version', App.BUILD);
+		var io = MainHeroku.io;
+		io.sockets.emit('version', App.BUILD);
 	}
 	public static function secure(req:Request,res:Response) {
-		res.send('secure: ${App.BUILD}');
-		// io.sockets.emit('version', App.BUILD);
+		// res.send('secure: ${App.BUILD}');
+		res.sendfile(Node.__dirname + '/public/secure.html');
+		var io = MainHeroku.io;
+		io.sockets.emit('version', App.BUILD);
 	}
 	public static function update(req:Request,res:Response) {
 		res.send('update: ${App.BUILD}');
-		// io.sockets.emit('version', App.BUILD);
+		var io = MainHeroku.io;
+		io.sockets.emit('update', App.BUILD);
 	}
 
-
-
-	// public static function latest(req:Request,res:Response) {
-	// 	var _url = Node.__dirname +  '/_config/config.json';
-	// 	res.send(Fs.readFileSync(_url, "utf8"));
-	// }
-
-	// public static function settings(req:Request,res:Response) {
-	// 	var _url = Node.__dirname +  '/_config/settings.json';
-	// 	var date = Date.now();
-	// 	var settings = haxe.Json.stringify(
-	// 		{
-	// 			items:[
-	// 				{
-	// 					id:(date.getTime()+0),
-	// 					createdate:date,
-	// 					title:'Ki ios',
-	// 					gitlabid:1,
-	// 					milestone:'1.2.0',
-	// 					tenkid:1350516,
-	// 					tenkidSub:1350533
-	// 				},
-	// 				{
-	// 					id:(date.getTime()+1),
-	// 					createdate:date,
-	// 					title:'Ki Android',
-	// 					gitlabid:2,
-	// 					milestone:'1.2.0',
-	// 					tenkid:1350516,
-	// 					tenkidSub:1350534
-	// 				},
-	// 				{
-	// 					id:(date.getTime()+2),
-	// 					createdate:date,
-	// 					title:'Ki backend',
-	// 					gitlabid:68,
-	// 					milestone:'1.6.0',
-	// 					tenkid:1350516,
-	// 					tenkidSub:1350536
-	// 				}
-
-	// 			]
-	// 		}
-	// 	);
-	// 	if(sys.FileSystem.exists(_url)){
-	// 		settings = Fs.readFileSync(_url, "utf8");
-	// 	} else {
-	// 		sys.io.File.saveContent( Node.__dirname +  '/_config/settings.json', settings );
-	// 	}
-	// 	res.send(settings);
-	// }
-
-	// public static function settingsAdd(req:Request,res:Response) {
-	// 	var _date = Date.now();
-	// 	var _title = req.query.title;
-	// 	var _gitlabid = Std.int(req.query.gitlabid);
-	// 	var _gitlabmilestone = req.query.gitlabmilestone;
-	// 	var _tenkid = Std.int(req.query.tenkid);
-	// 	var _tenkphaseid = Std.int(req.query.tenkphaseid);
-
-	// 	// trace(_title, _gitlabid, _gitlabmilestone, _tenkid, _tenkphaseid);
-
-	// 	var _url = Node.__dirname +  '/_config/settings.json';
-	// 	var settings : SettingsDataObj = haxe.Json.parse(Fs.readFileSync(_url, "utf8"));
-
-	// 	// trace(settings);
-
-	// 	var obj : SettingsData = {
-	// 		id : _date.getTime(),
-	// 		createdate : _date,
-	// 		title : _title,
-	// 		gitlabid : _gitlabid,
-	// 		milestone : _gitlabmilestone,
-	// 		tenkid : _tenkid,
-	// 		tenkidSub : _tenkphaseid
-	// 	};
-	// 	settings.items.push(obj);
-
-	// 	// trace(settings);
-
-	// 	sys.io.File.saveContent( _url, haxe.Json.stringify(settings));
-
-	// 	res.redirect('/');
-	// }
-
-	// // form get
-	// public static function settingsRemove(req:Request,res:Response) {
-	// 	var _id = req.query.id;
-	// 	trace('--------------> ${_id}');
-	// 	// trace('--------------> ${req.query}');
-	// 	var _url = Node.__dirname +  '/_config/settings.json';
-	// 	var obj : SettingsDataObj = haxe.Json.parse(Fs.readFileSync(_url, "utf8"));
-	// 	var settings : SettingsDataObj = {items:[]};
-	// 	for (i in obj.items){
-	// 		// trace(i);
-	// 		var _data = i;
-	// 		var id = _data.id;
-	// 		if(id == Std.parseInt(_id)) {
-	// 			// trace('found ${_id} in ${i}');
-	// 		} else {
-	// 			settings.items.push (i);
-	// 		}
-	// 	}
-
-	// 	// trace(settings);
-	// 	sys.io.File.saveContent( _url, haxe.Json.stringify(settings));
-
-	// 	// var _url = Node.__dirname +  '/_config/settings.json';
-	// 	// res.send(Fs.readFileSync(_url, "utf8"));
-	// 	// var obj = {"id":'${_id}'};
-	// 	// res.send(haxe.Json.stringify(obj));
-	// 	// res.sendfile(Node.__dirname + '/public/index.html');
-
-	// 	res.redirect('/');
-	// }
-
-	// public static function update(req:Request,res:Response) {
-	// 	var mainGenerate = new MainGenerate();
-	// 	// mainGenerate.pingSignal.add(
-	// 	// 	function(i){
-	// 	// 		// trace('signal dispatched!: ${i}');
-	// 	// 		res.send(i);
-	// 	// });
-	// 	var obj = {"update":"done"};
-	// 	res.send(haxe.Json.stringify(obj));
-	// }
-
-	// /**
-	// 	var _url0 = Node.__dirname +  '/_data/${tenkFolder}/projects.json';
-	// 	var _url1 = Node.__dirname +  '/_data/${tenkFolder}/${id}_budget.json';
-	// 	var _url2 = Node.__dirname +  '/_data/${tenkFolder}/${id}_time_entries.json';
-	// 	var _data0 : TenKeyProjectsObj;
-	// 	var _data1 : TenKeyBudgetObj;
-	// 	var _data2 : TenKeyHoursObj;
-
-	// 	_data0 = haxe.Json.parse(Fs.readFileSync(_url0, "utf8"));
-	// 	_data1 = haxe.Json.parse(Fs.readFileSync(_url1, "utf8"));
-	// 	_data2 = haxe.Json.parse(Fs.readFileSync(_url2, "utf8"));
-	//  */
 
 
 	// // gitlab
@@ -237,8 +111,5 @@ class Controller {
 	// 	res.send(Fs.readFileSync(_url, "utf8"));
 	// };
 
-	// public static function combineProjectsId(req,res){
-	// 	var _url = Node.__dirname +  '/combine.json';
-	// 	res.send(Fs.readFileSync(_url, "utf8"));
-	// };
+
 }
