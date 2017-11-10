@@ -1,0 +1,16 @@
+# libs used in project
+-lib js-kit
+-lib vue
+-lib hxexterns
+# -lib hxnodejs
+# source folder
+-cp src
+# -cp externs
+# class entry point
+-main MainClient
+#JavaScript target
+-js bin/heroku/public/js/client.js
+-D source-map-content
+-debug
+-dce full
+-D hxnodejs_no_version_warning
