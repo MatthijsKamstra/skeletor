@@ -21,6 +21,8 @@ It seems a good idea to make a skeleton project for this.
 
 ## Json definition aka AST
 
+Easy way to make AST files for `.json`
+
 <http://matthijskamstra.github.io/hxjsondef/>
 
 ## Install
@@ -61,3 +63,9 @@ To make it work with vscode you need build files without:
 
 - c
 - v
+
+
+
+## sources
+
+- https://gist.github.com/smebberson/1581536

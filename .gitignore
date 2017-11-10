@@ -1,0 +1,19 @@
+# Folder view configuration files
+.DS_Store
+
+# Node.js Logs
+logs
+*.log
+npm-debug.log*
+
+
+# Dependency directories
+node_modules
+
+# Haxe export folder
+#_build
+# bin
+# bin_test
+# bin_release
+
+# Misc
