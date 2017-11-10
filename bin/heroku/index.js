@@ -19,6 +19,7 @@ var MainHeroku = function() {
 	this.app["use"](new js_npm_express_Static(js_node_Path.join(__dirname,"public")));
 	this.app["use"](new js_npm_express_CookieParser());
 	this.app["use"](new js_npm_express_Session({ secret : "example", resave : true, saveUninitialized : true}));
+	this.app["use"]($bind(this,this.checkAuth));
 	server_Router.init(this.app);
 	MainHeroku.io.on("connection",function(socket) {
 		socket.emit("message",{ message : "Welcome from the Heroku server - " + "[Skeletor]"});
@@ -39,6 +40,20 @@ var MainHeroku = function() {
 MainHeroku.__name__ = true;
 MainHeroku.main = function() {
 	var app = new MainHeroku();
+};
+MainHeroku.prototype = {
+	checkAuth: function(req,res,next) {
+		console.log("checkAuth " + Std.string(req.url));
+		if(req.url == "/secure" && (req.session == null || req.session.authenticated != true)) {
+			console.log("" + Std.string(req.url));
+			console.log("" + Std.string(req.session));
+			console.log("" + Std.string(req.session.authenticated));
+			res.redirect("/login");
+			return;
+		}
+		console.log("xxxxxxxx");
+		next();
+	}
 };
 Math.__name__ = true;
 var Std = function() { };
@@ -134,6 +149,7 @@ js_Boot.__string_rec = function(o,s) {
 		return String(o);
 	}
 };
+var js_node_Fs = require("fs");
 var js_node_Http = require("http");
 var js_node_Path = require("path");
 var js_node_buffer_Buffer = require("buffer").Buffer;
@@ -158,8 +174,9 @@ server_Controller.logout = function(req,res) {
 server_Controller.login = function(req,res) {
 	res.sendfile(__dirname + "/public/login.html");
 };
-server_Controller.loginPost = function(req,res) {
-	res.sendfile(__dirname + "/public/secure.html");
+server_Controller.loginPost = function(req,res,next) {
+	console.log(req);
+	console.log(next);
 };
 server_Controller.api = function(req,res) {
 	res.send("api: " + model_constants_App.BUILD);
@@ -168,6 +185,20 @@ server_Controller.apiPost = function(req,res) {
 	console.log("api");
 	console.log(req);
 	console.log(res);
+};
+server_Controller.test = function(req,res) {
+	var _url = __dirname + "/private/test.json";
+	res.send(js_node_Fs.readFileSync(_url,"utf8"));
+};
+server_Controller.testId = function(req,res) {
+	res.sendfile(__dirname + "/public/test.html");
+};
+server_Controller.testById = function(req,res) {
+	res.send("testById: " + Std.string(req.params.id));
+	var _id = req.params.id;
+};
+server_Controller.testFooById = function(req,res) {
+	res.send("testFooById: " + Std.string(req.params.id));
 };
 server_Controller.ping = function(req,res) {
 	res.send("test:ping");
@@ -202,10 +233,16 @@ server_Router.init = function(app) {
 	app.post("/login",server_Controller.loginPost);
 	app.get("/api",server_Controller.api);
 	app.post("/api",server_Controller.apiPost);
+	app.get("/test",server_Controller.test);
+	app.get("/test/id",server_Controller.testId);
+	app.get("/test/:id",server_Controller.testById);
+	app.get("/test/foo/:id",server_Controller.testFooById);
 };
+var $_, $fid = 0;
+function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 String.__name__ = true;
 Array.__name__ = true;
-model_constants_App.BUILD = "2017-11-10 21:29:47";
+model_constants_App.BUILD = "2017-11-10 22:30:51";
 MainHeroku.main();
 })();
 

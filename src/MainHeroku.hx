@@ -62,14 +62,13 @@ class MainHeroku {
 			resave: true,
     		saveUninitialized: true
 		}));
-		// app.use(untyped checkAuth ); 								// need to fix this in the externs
+		app.use(untyped checkAuth ); 									// need to fix this in the externs
 
 		// Routes
 		Router.init(app); 												// need to fix this in the externs
 
 		// socket stuff
 		io.on('connection', function (socket) {
-
 			socket.emit('message', { message: 'Welcome from the Heroku server - ${App.PROJECT_NAME}' });
 			socket.on('send', function (data:Dynamic) {
 				io.sockets.emit('id', data.id);
@@ -78,10 +77,6 @@ class MainHeroku {
 			socket.on('disconnect', function (data:Dynamic) {
         		console.log('user disconnected');
     		});
-			// socket.on('ping', function(data:Dynamic) {
-			// 	trace('got a ping');
-    		// 	io.sockets.emit('pong');
-  			// });
 		});
 
 		// use this last...
@@ -101,10 +96,18 @@ class MainHeroku {
 		// don't serve /secure to those not logged in
 		// you should add to this list, for each and every secure url
 		if (req.url == '/secure' && (req.session == null || req.session.authenticated != true)) {
+
+			trace('${req.url}');
+			trace('${req.session}');
+			trace('${req.session.authenticated }');
+
 			res.redirect('/login');
 			// res.status(404).send('404');
 			return;
 		}
+
+		trace('xxxxxxxx');
+
 		next();
 	}
 

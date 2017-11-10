@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>List</title>
+    <title>Skeletor :: List</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,97 +12,74 @@
 
     <link rel="stylesheet" href="/css/default.css">
 
-    <style>
-      .bigger-badge{
-        font-size:2em;
-      }
-    </style>
+    <style></style>
   </head>
   <body id="page-list">
 
-	<div class="container-fluid">
-		<div class="d-flex justify-content-center" id="loading" v-if="showloading">
-			<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-			<span class="sr-only">Loading...</span>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Skeletor</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/ping">/ping</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/secure">/secure</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/update">/update</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/version">/version</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Access
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/login">Login</a>
+              <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="d-flex justify-content-center" id="loading" v-if="showloading">
+        <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+      </div>
+
+      <div id="app">
+        <p>{{ message }}</p>
+      </div>
+
+      <ul id="example-1">
+        <li v-for="item in items">
+          {{ item.message }}
+        </li>
+      </ul>
+
     </div>
-
-    <p>&#x1F44D;</p>
-    <p>&#x1F44E;</p>
-
-    <span class="badge badge-primary bigger-badge">&#x1F44D;</span>
-
-
-    <div id="app">
-      <p>{{ message }}</p>
-    </div>
-
-    <div id="app-7">
-
-      <span>
-        Total marks are: {{ totalMarks }}
-      </span>
-
-      <ol>
-        <!--
-          Now we provide each todo-item with the todo object
-          it's representing, so that its content can be dynamic.
-          We also need to provide each component with a "key",
-          which will be explained later.
-        -->
-        <todo-item
-          v-for="item in groceryList"
-          v-bind:todo="item"
-          v-bind:key="item.id">
-        </todo-item>
-      </ol>
-
-      <reaction-item
-          v-for="item in reactions"
-          v-bind:react="item">
-      </reaction-item>
-
-    </div>
-
-    <div id="example-2">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">user</th>
-            <th scope="col">text</th>
-            <th scope="col">url</th>
-            <th scope="col"><i class="fa fa-clock-o" aria-hidden="true"></i> ts</th>
-            <th scope="col">permalink</th>
-            <th scope="col">reactions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item,index) in items">
-            <th scope="row">{{ index + 1 }}</th>
-            <td>{{ item.message.user }}</td>
-            <td>{{ item.message.text }}</td>
-            <td><a v-bind:href="item.message.attachments[0].from_url" target="_blank" v-bind:title="item.message.attachments[0].from_url"><i class="fa fa-link" aria-hidden="true"></i></a></td>
-            <td>{{ item.message.ts }}</td>
-            <td><a v-bind:href="item.message.permalink" target="_blank" v-bind:title="item.message.permalink"><i class="fa fa-slack" aria-hidden="true"></i> <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
-            <td>{{ item.message.reactions }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-
-
-	</div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <!-- socket.io -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <!-- vue.js -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js"></script>
-    <script src="/js/channels.js"></script>
-
+    <!-- own script -->
+    <script src="/js/client.js"></script>
 
   </body>
 </html>
