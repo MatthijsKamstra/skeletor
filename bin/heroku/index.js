@@ -152,28 +152,42 @@ server_Controller.__name__ = true;
 server_Controller.index = function(req,res) {
 	res.sendfile(__dirname + "/public/_index.html");
 };
+server_Controller.logout = function(req,res) {
+	res.redirect("/");
+};
 server_Controller.login = function(req,res) {
 	res.sendfile(__dirname + "/public/login.html");
 };
 server_Controller.loginPost = function(req,res) {
 	res.sendfile(__dirname + "/public/secure.html");
 };
-server_Controller.logout = function(req,res) {
-	res.redirect("/");
+server_Controller.api = function(req,res) {
+	res.send("api: " + model_constants_App.BUILD);
+};
+server_Controller.apiPost = function(req,res) {
+	console.log("api");
+	console.log(req);
+	console.log(res);
 };
 server_Controller.ping = function(req,res) {
-	var io = MainHeroku.io;
 	res.send("test:ping");
+	var io = MainHeroku.io;
 	io.sockets.emit("test:ping","[Skeletor]");
 };
 server_Controller.version = function(req,res) {
 	res.send("version: " + model_constants_App.BUILD);
+	var io = MainHeroku.io;
+	io.sockets.emit("version",model_constants_App.BUILD);
 };
 server_Controller.secure = function(req,res) {
-	res.send("secure: " + model_constants_App.BUILD);
+	res.sendfile(__dirname + "/public/secure.html");
+	var io = MainHeroku.io;
+	io.sockets.emit("version",model_constants_App.BUILD);
 };
 server_Controller.update = function(req,res) {
 	res.send("update: " + model_constants_App.BUILD);
+	var io = MainHeroku.io;
+	io.sockets.emit("update",model_constants_App.BUILD);
 };
 var server_Router = function() { };
 server_Router.__name__ = true;
@@ -183,13 +197,15 @@ server_Router.init = function(app) {
 	app.get("/ping",server_Controller.ping);
 	app.get("/update",server_Controller.update);
 	app.get("/version",server_Controller.version);
+	app.get("/logout",server_Controller.logout);
 	app.get("/login",server_Controller.login);
 	app.post("/login",server_Controller.loginPost);
-	app.get("/logout",server_Controller.logout);
+	app.get("/api",server_Controller.api);
+	app.post("/api",server_Controller.apiPost);
 };
 String.__name__ = true;
 Array.__name__ = true;
-model_constants_App.BUILD = "2017-11-10 20:57:20";
+model_constants_App.BUILD = "2017-11-10 21:29:47";
 MainHeroku.main();
 })();
 

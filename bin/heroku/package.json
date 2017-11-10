@@ -1,0 +1,28 @@
+{
+	"license": "MIT",
+	"name": "fonk_slack_thumb",
+	"version": "0.0.1",
+	"description": "",
+	"private": true,
+	"author": "Matthijs Kamstra aka [mck]",
+	"engines": {
+		"node": "8.6.0",
+		"npm": "5.4.2"
+	},
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js"
+	},
+	"dependencies": {
+		"airtable": "^0.5.0",
+		"body-parser": "^1.18.2",
+		"cookie-parser": "^1.4.3",
+		"express": "^4.16.2",
+		"express-session": "^1.15.6",
+		"morgan": "^1.9.0",
+		"request": "^2.83.0",
+		"serve-favicon": "*",
+		"socket.io": "^2.0.3"
+	},
+	"devDependencies": {}
+}
