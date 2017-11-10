@@ -68,4 +68,13 @@ To make it work with vscode you need build files without:
 
 ## sources
 
+simple session based login (no db)
+
 - https://gist.github.com/smebberson/1581536
+- https://www.codementor.io/emjay/how-to-build-a-simple-session-based-authentication-system-with-nodejs-from-scratch-6vn67mcy3
+- http://www.codexpedia.com/node-js/a-very-basic-session-auth-in-node-js-with-express-js/
+
+
+
+
+
