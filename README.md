@@ -20,10 +20,11 @@ this is a bootstrap project for a quick backend in node.js (usually deployed to 
 - Simple autothencation
 	- Sessions
 - Router
+- toggle button with socket action back and forth
 
 ## todo
 
-- json db (Heroku doesn't work with locally saved db, but locally saved data can be uploaded)
+- json db (Heroku doesn't save files saved in folder like `.json` db , but locally saved data can be uploaded)
 - pass/user in json.db
 - templating for navbar (haxe templating?)
 -
