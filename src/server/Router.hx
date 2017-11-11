@@ -15,6 +15,9 @@ class Router {
 		app.get('/update', Controller.update);
 		app.get('/version', Controller.version);
 
+		app.get('/secure', Controller.secure);
+		app.get('/secure1', Controller.secure1);
+
 		// access
 		app.get('/logout', Controller.logout);
 		app.get('/login', Controller.login);

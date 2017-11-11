@@ -18,6 +18,7 @@ class Controller {
 
 	public static function logout(req:Request,res:Response) {
 		// res.sendfile(Node.__dirname + '/public/login.html');
+		untyped req.session.destroy();
 		res.redirect('/');
 	}
 	public static function login(req:Request,res:Response) {
@@ -30,8 +31,12 @@ class Controller {
 		// trace(next);
 
 		// you might like to do a database look-up or something more scalable here
-		if (untyped req.body.username != null && untyped req.body.username == 'user' && untyped req.body.password != null && req.body.password == 'pass') {
-			req.session.authenticated = true;
+		if (untyped req.body.username != null &&
+			untyped req.body.username == 'user' &&
+			untyped req.body.password != null &&
+			untyped req.body.password == 'pass'
+			){
+			untyped req.session.authenticated = true;
 			res.redirect('/secure');
 		} else {
 			// req.flash('error', 'Username and password are incorrect');
@@ -93,6 +98,12 @@ class Controller {
 		io.sockets.emit('version', App.BUILD);
 	}
 	public static function secure(req:Request,res:Response) {
+		// res.send('secure: ${App.BUILD}');
+		res.sendfile(Node.__dirname + '/public/secure.html');
+		var io = MainHeroku.io;
+		io.sockets.emit('version', App.BUILD);
+	}
+	public static function secure1(req:Request,res:Response) {
 		// res.send('secure: ${App.BUILD}');
 		res.sendfile(Node.__dirname + '/public/secure.html');
 		var io = MainHeroku.io;

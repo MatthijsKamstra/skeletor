@@ -18,7 +18,7 @@ var MainHeroku = function() {
 	this.app["use"](js_npm_express_BodyParser.urlencoded({ extended : true}));
 	this.app["use"](new js_npm_express_Static(js_node_Path.join(__dirname,"public")));
 	this.app["use"](new js_npm_express_CookieParser());
-	this.app["use"](new js_npm_express_Session({ secret : "example", resave : true, saveUninitialized : true}));
+	this.app["use"](new js_npm_express_Session({ name : "user_sid", secret : "skeleton_123_randomstuff", resave : false, saveUninitialized : false, cookie : { maxAge : 600000}}));
 	this.app["use"]($bind(this,this.checkAuth));
 	server_Router.init(this.app);
 	MainHeroku.io.on("connection",function(socket) {
@@ -43,15 +43,20 @@ MainHeroku.main = function() {
 };
 MainHeroku.prototype = {
 	checkAuth: function(req,res,next) {
-		console.log("checkAuth " + Std.string(req.url));
-		if(req.url == "/secure" && (req.session == null || req.session.authenticated != true)) {
-			console.log("" + Std.string(req.url));
-			console.log("" + Std.string(req.session));
-			console.log("" + Std.string(req.session.authenticated));
+		var loginPathArray = ["/secure","/secure1"];
+		var secureURL = false;
+		var _g = 0;
+		while(_g < loginPathArray.length) {
+			var i = loginPathArray[_g];
+			++_g;
+			if(i == req.url) {
+				secureURL = true;
+			}
+		}
+		if(secureURL && (req.session == null || req.session.authenticated != true)) {
 			res.redirect("/login");
 			return;
 		}
-		console.log("xxxxxxxx");
 		next();
 	}
 };
@@ -169,14 +174,19 @@ server_Controller.index = function(req,res) {
 	res.sendfile(__dirname + "/public/_index.html");
 };
 server_Controller.logout = function(req,res) {
+	req.session.destroy();
 	res.redirect("/");
 };
 server_Controller.login = function(req,res) {
 	res.sendfile(__dirname + "/public/login.html");
 };
 server_Controller.loginPost = function(req,res,next) {
-	console.log(req);
-	console.log(next);
+	if(req.body.username != null && (req.body.username == "user" && (req.body.password != null && req.body.password == "pass"))) {
+		req.session.authenticated = true;
+		res.redirect("/secure");
+	} else {
+		res.redirect("/login");
+	}
 };
 server_Controller.api = function(req,res) {
 	res.send("api: " + model_constants_App.BUILD);
@@ -215,6 +225,11 @@ server_Controller.secure = function(req,res) {
 	var io = MainHeroku.io;
 	io.sockets.emit("version",model_constants_App.BUILD);
 };
+server_Controller.secure1 = function(req,res) {
+	res.sendfile(__dirname + "/public/secure.html");
+	var io = MainHeroku.io;
+	io.sockets.emit("version",model_constants_App.BUILD);
+};
 server_Controller.update = function(req,res) {
 	res.send("update: " + model_constants_App.BUILD);
 	var io = MainHeroku.io;
@@ -228,6 +243,8 @@ server_Router.init = function(app) {
 	app.get("/ping",server_Controller.ping);
 	app.get("/update",server_Controller.update);
 	app.get("/version",server_Controller.version);
+	app.get("/secure",server_Controller.secure);
+	app.get("/secure1",server_Controller.secure1);
 	app.get("/logout",server_Controller.logout);
 	app.get("/login",server_Controller.login);
 	app.post("/login",server_Controller.loginPost);
@@ -242,7 +259,7 @@ var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 String.__name__ = true;
 Array.__name__ = true;
-model_constants_App.BUILD = "2017-11-10 22:30:51";
+model_constants_App.BUILD = "2017-11-11 16:46:45";
 MainHeroku.main();
 })();
 

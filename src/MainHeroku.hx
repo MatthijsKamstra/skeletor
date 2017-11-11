@@ -58,14 +58,19 @@ class MainHeroku {
 		app.use(new CookieParser());									// initialize cookie-parser to allow us access the cookies stored in the browser.
 																		// initialize express-session to allow us track the logged-in user across sessions.
 		app.use(new Session({
-			secret: 'example',
-			resave: true,
-    		saveUninitialized: true
+			name: 'user_sid',
+			secret: 'skeleton_123_randomstuff',
+			resave: false,
+			saveUninitialized: false,
+			cookie: {
+				maxAge: 600000
+			}
+
 		}));
 		app.use(untyped checkAuth ); 									// need to fix this in the externs
 
 		// Routes
-		Router.init(app); 												// need to fix this in the externs
+		Router.init(app); 												// init router
 
 		// socket stuff
 		io.on('connection', function (socket) {
@@ -91,23 +96,32 @@ class MainHeroku {
 		trace('Listening on port: ${port} (http://localhost:${port})');
 	}
 
+	/**
+	 *  this function needs to be moved to Router (I guess?)
+	 *  @param req -
+	 *  @param res -
+	 *  @param next -
+	 */
 	function checkAuth (req:Dynamic, res, next) {
-		console.log('checkAuth ' + req.url);
-		// don't serve /secure to those not logged in
-		// you should add to this list, for each and every secure url
-		if (req.url == '/secure' && (req.session == null || req.session.authenticated != true)) {
+		// console.log('checkAuth ' + req.url);
+		// trace('${req.url}');
+		// trace('${req.session}');
+		// trace('${req.session.authenticated }');
 
-			trace('${req.url}');
-			trace('${req.session}');
-			trace('${req.session.authenticated }');
-
-			res.redirect('/login');
-			// res.status(404).send('404');
-			return;
+		var loginPathArray = ['/secure', '/secure1'];
+		var secureURL = false;
+		for (i in loginPathArray){
+			if(i == req.url) secureURL = true;
 		}
 
-		trace('xxxxxxxx');
-
+		// don't serve /secure to those not logged in
+		// you should add to this list, for each and every secure url
+		// if (req.url == '/secure' && (req.session == null || req.session.authenticated != true)) {
+		if (secureURL && (req.session == null || req.session.authenticated != true)) {
+			res.redirect('/login');
+			// res.sendStatus(401);
+			return;
+		}
 		next();
 	}
 

@@ -75,6 +75,10 @@ simple session based login (no db)
 - http://www.codexpedia.com/node-js/a-very-basic-session-auth-in-node-js-with-express-js/
 
 
+rest api
+
+- https://medium.com/@jeffandersen/building-a-node-js-rest-api-with-express-46b0901f29b6
+
 
 
 
