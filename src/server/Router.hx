@@ -15,6 +15,8 @@ class Router {
 		app.get('/update', Controller.update);
 		app.get('/version', Controller.version);
 
+		app.get('/toggle', Controller.toggle);
+
 		app.get('/secure', Controller.secure);
 		app.get('/secure1', Controller.secure1);
 

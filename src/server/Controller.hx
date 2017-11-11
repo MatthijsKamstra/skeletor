@@ -92,6 +92,12 @@ class Controller {
 		var io = MainHeroku.io;
 		io.sockets.emit('test:ping', App.PROJECT_NAME);
 	}
+	public static function toggle(req:Request,res:Response) {
+		// res.send('toggle');
+		var io = MainHeroku.io;
+		io.sockets.emit('toggle', App.PROJECT_NAME);
+		res.sendfile(Node.__dirname + '/public/toggle.html');
+	}
 	public static function version(req:Request,res:Response) {
 		res.send('version: ${App.BUILD}');
 		var io = MainHeroku.io;

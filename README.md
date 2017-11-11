@@ -7,17 +7,27 @@ I do a lot of experiments with Haxe and Node.js and something like this is usual
 It seems a good idea to make a skeleton project for this.
 
 
-## Stuff
+## Desciption project
 
-- Haxe
-- Bootstrap : <https://getbootstrap.com/docs/4.0/>
-- Express.js
-- Socket.io
+this is a bootstrap project for a quick backend in node.js (usually deployed to Heroku)
+
+- [Haxe](http://www.haxe.org) The Cross-platform Toolkit for transpiling to javascript
+- [Bootstrap](https://getbootstrap.com/docs/4.0/) for css framework
+- [Express.js](https://expressjs.com/) Fast, unopinionated, minimalist web framework for Node.js
+- [Socket.io](https://socket.io/) FEATURING THE FASTEST AND MOST RELIABLE REAL-TIME ENGINE
+- [Vue.js](https://vuejs.org/) a progressive framework for building user interfaces.
+- [Fontawesome](http://fontawesome.io/icons/) for nice icons
 - Simple autothencation
 	- Sessions
 - Router
-- Vue.js
-- Fontawesome : <http://fontawesome.io/icons/>
+
+## todo
+
+- json db (Heroku doesn't work with locally saved db, but locally saved data can be uploaded)
+- pass/user in json.db
+- templating for navbar (haxe templating?)
+-
+
 
 ## Json definition aka AST
 

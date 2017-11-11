@@ -30,6 +30,19 @@ var MainHeroku = function() {
 		socket.on("disconnect",function(data1) {
 			console.log("user disconnected");
 		});
+		socket.on("toggle",function(data2) {
+			console.log("server toggle: " + Std.string(data2));
+			var isChecked = data2.checked;
+			if(isChecked) {
+				console.log("server - toggle : TRUE : isChecked : " + (isChecked == null ? "null" : "" + isChecked));
+				haxe_Timer.delay(function() {
+					console.log("server - toggle - reset after 3 seconds");
+					MainHeroku.io.sockets.emit("toggle",{ checked : false});
+				},3000);
+			} else {
+				console.log("server - toggle : FALSE : isChecked : " + (isChecked == null ? "null" : "" + isChecked));
+			}
+		});
 	});
 	this.app["use"](function(req,res,next) {
 		res.status(404).send("404");
@@ -65,6 +78,32 @@ var Std = function() { };
 Std.__name__ = true;
 Std.string = function(s) {
 	return js_Boot.__string_rec(s,"");
+};
+var haxe_Timer = function(time_ms) {
+	var me = this;
+	this.id = setInterval(function() {
+		me.run();
+	},time_ms);
+};
+haxe_Timer.__name__ = true;
+haxe_Timer.delay = function(f,time_ms) {
+	var t = new haxe_Timer(time_ms);
+	t.run = function() {
+		t.stop();
+		f();
+	};
+	return t;
+};
+haxe_Timer.prototype = {
+	stop: function() {
+		if(this.id == null) {
+			return;
+		}
+		clearInterval(this.id);
+		this.id = null;
+	}
+	,run: function() {
+	}
 };
 var haxe_io_Bytes = function() { };
 haxe_io_Bytes.__name__ = true;
@@ -215,6 +254,11 @@ server_Controller.ping = function(req,res) {
 	var io = MainHeroku.io;
 	io.sockets.emit("test:ping","[Skeletor]");
 };
+server_Controller.toggle = function(req,res) {
+	var io = MainHeroku.io;
+	io.sockets.emit("toggle","[Skeletor]");
+	res.sendfile(__dirname + "/public/toggle.html");
+};
 server_Controller.version = function(req,res) {
 	res.send("version: " + model_constants_App.BUILD);
 	var io = MainHeroku.io;
@@ -243,6 +287,7 @@ server_Router.init = function(app) {
 	app.get("/ping",server_Controller.ping);
 	app.get("/update",server_Controller.update);
 	app.get("/version",server_Controller.version);
+	app.get("/toggle",server_Controller.toggle);
 	app.get("/secure",server_Controller.secure);
 	app.get("/secure1",server_Controller.secure1);
 	app.get("/logout",server_Controller.logout);
@@ -259,7 +304,7 @@ var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 String.__name__ = true;
 Array.__name__ = true;
-model_constants_App.BUILD = "2017-11-11 16:46:45";
+model_constants_App.BUILD = "2017-11-11 21:14:11";
 MainHeroku.main();
 })();
 

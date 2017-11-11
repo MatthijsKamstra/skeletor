@@ -82,6 +82,20 @@ class MainHeroku {
 			socket.on('disconnect', function (data:Dynamic) {
         		console.log('user disconnected');
     		});
+			socket.on('toggle', function (data:Dynamic) {
+        		console.log('server toggle: ${data}');
+				var isChecked = data.checked;
+				if(isChecked){
+					trace('server - toggle : TRUE : isChecked : ${isChecked}');
+					// reset toggle after 3 seconds
+					haxe.Timer.delay(function (){
+						trace('server - toggle - reset after 3 seconds');
+						io.sockets.emit('toggle', {checked:false});
+					}, 3000);
+				} else {
+					trace('server - toggle : FALSE : isChecked : ${isChecked}');
+				}
+    		});
 		});
 
 		// use this last...

@@ -25,15 +25,45 @@ class MainClient {
 
 			trace('body.id : ${document.body.id}');
 
-			init();
+			init(document.body.id);
 		});
 	}
 
 
-	private function init() {
+	private function init(pageid:String) {
+
+	  	socket = js.browser.SocketIo.connect(url);
+
+		switch (pageid) {
+			case 'page-home': trace ('page-home');
+			case 'page-toggle':
+				trace ('page-toggle');
+				initPageToggle();
+			default : trace ("case '"+pageid+"': trace ('"+pageid+"');");
+		}
+
+
 		// showSnackbar('hello');
 		initVue();
 		initSocket();
+	}
+
+
+	function initPageToggle(){
+		trace('initPageToggle');
+
+		socket.on('toggle', function (data) {
+			trace('client - toggle :: ${haxe.Json.stringify(data)}');
+			cast(document.getElementById('toggle-button'), js.html.InputElement ).checked = data.checked;
+		});
+
+		new JQuery('#toggle-button').click(function(e){
+			// e.preventDefault();
+			trace('client - toggle');
+			var isChecked = cast(document.getElementById('toggle-button'), js.html.InputElement ).checked;
+			socket.emit('toggle', { checked: isChecked });
+		});
+
 	}
 
 	var loading : Vue;
@@ -110,7 +140,6 @@ class MainClient {
 	}
 
 	function initSocket(){
-	  	socket = js.browser.SocketIo.connect(url);
 		socket.on('message', function (data) {
 			trace('${haxe.Json.stringify(data)}');
     		app.data.message = data.message;
