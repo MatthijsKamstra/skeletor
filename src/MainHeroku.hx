@@ -96,6 +96,9 @@ class MainHeroku {
 					trace('server - toggle : FALSE : isChecked : ${isChecked}');
 				}
     		});
+			socket.on("list:get", function (data){
+				trace("yesssssssss");
+			});
 		});
 
 		// use this last...

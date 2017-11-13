@@ -17,17 +17,20 @@ this is a bootstrap project for a quick backend in node.js (usually deployed to 
 - [Socket.io](https://socket.io/) FEATURING THE FASTEST AND MOST RELIABLE REAL-TIME ENGINE
 - [Vue.js](https://vuejs.org/) a progressive framework for building user interfaces.
 - [Fontawesome](http://fontawesome.io/icons/) for nice icons
-- Simple autothencation
+- Simple authencation
 	- Sessions
-- Router
 - toggle button with socket action back and forth
+- api
+- json example
+- templating for navbar (haxe templating?) #WIP
 
 ## todo
 
 - json db (Heroku doesn't save files saved in folder like `.json` db , but locally saved data can be uploaded)
 - pass/user in json.db
-- templating for navbar (haxe templating?)
--
+- use haxelow / lowdb for db
+- example code vue.js
+
 
 
 ## Json definition aka AST

@@ -1,15 +1,18 @@
 package server;
 
 import js.npm.Express;
+import server.controller.*;
 
 class Router {
 
 	public static function init(app : Express):Void
 	{
-		// home
+		// home / public
 		app.get('/', Controller.index);
+		app.get('/about', Controller.about);
+		app.get('/list', Controller.list);
 
-		// stuff
+		// admin
 		app.get('/secure', Controller.secure);
 		app.get('/ping', Controller.ping);
 		app.get('/update', Controller.update);
@@ -21,19 +24,20 @@ class Router {
 		app.get('/secure1', Controller.secure1);
 
 		// access
-		app.get('/logout', Controller.logout);
-		app.get('/login', Controller.login);
-		app.post('/login', Controller.loginPost);
+		app.get('/logout', server.controller.Login.logout);
+		app.get('/login', server.controller.Login.login);
+		app.post('/login', server.controller.Login.loginPost);
 
 		// api
-		app.get('/api', Controller.api);
-		app.post('/api', Controller.apiPost);
+		app.get('/api', server.controller.Api.api);
+		app.get('/api/id', server.controller.Api.apiId);
+		app.post('/api', server.controller.Api.apiPost);
 
 		// test app
-		app.get('/test', Controller.test);
-		app.get('/test/id', Controller.testId);
-		app.get('/test/:id', Controller.testById);
-		app.get('/test/foo/:id', Controller.testFooById);
+		app.get('/test', server.controller.Test.test);
+		app.get('/test/id', server.controller.Test.testId);
+		app.get('/test/:id', server.controller.Test.testById);
+		app.get('/test/foo/:id', server.controller.Test.testFooById);
 
 		// app.route('/book')
 		// 	.get(function (req, res) {

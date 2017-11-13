@@ -16,57 +16,44 @@
   </head>
   <body id="page-list">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Skeletor</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/ping">/ping</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/secure">/secure</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/update">/update</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/version">/version</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Access
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/login">Login</a>
-              <a class="dropdown-item" href="/logout">Logout</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    ::nav::
 
     <div class="container">
 
-      <div class="d-flex justify-content-center" id="loading" v-if="showloading">
-        <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-        <span class="sr-only">Loading...</span>
-      </div>
-
       <div id="app">
         <p>{{ message }}</p>
-      </div>
-
-      <ul id="example-1">
-        <li v-for="item in items">
-          {{ item.message }}
+        <li v-for="itemm in itemz">
+          {{ itemm.message }}
         </li>
-      </ul>
 
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">user</th>
+              <th scope="col">text</th>
+              <th scope="col">url</th>
+              <th scope="col"><i class="fa fa-clock-o" aria-hidden="true"></i> ts</th>
+              <th scope="col">permalink</th>
+              <th scope="col">reactions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item,index) in items">
+              <th scope="row">{{ index + 1 }}</th>
+              <td>{{ item.message.user }}</td>
+              <td>{{ item.message.text }}</td>
+              <td><a v-bind:href="item.message.attachments[0].from_url" target="_blank" v-bind:title="item.message.attachments[0].from_url"><i class="fa fa-link" aria-hidden="true"></i></a></td>
+              <td>{{ item.message.ts }}</td>
+              <td><a v-bind:href="item.message.permalink" target="_blank" v-bind:title="item.message.permalink"><i class="fa fa-slack" aria-hidden="true"></i> <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
+              <td>{{ item.message.reactions }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
     </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -78,6 +65,7 @@
     <!-- vue.js -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.3.4/vue-resource.min.js"></script>
     <!-- own script -->
     <script src="/js/client.js"></script>
 

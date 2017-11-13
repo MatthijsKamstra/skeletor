@@ -1,0 +1,31 @@
+[
+	{
+		"message" :{
+			"user" : "Matthijs",
+			"text" : "Tja dat is lekker",
+			"ts" : "234567",
+			"reactions" : "😀",
+			"permalink" : "xxxxxxxx",
+			"attachments" : [
+				{
+					"from_url" : "http://www.ah.nl"
+				}
+			]
+
+		}
+	},
+	{
+		"message" :{
+			"user" : "HENK",
+			"text" : "hier kan ik niets mee",
+			"ts" : "4444234567",
+			"reactions" : "😎",
+			"permalink" : "yyyyyyyy",
+			"attachments" : [
+				{
+					"from_url" : "http://www.google.com"
+				}
+			]
+		}
+	}
+]

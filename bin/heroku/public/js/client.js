@@ -7,17 +7,14 @@ function $extend(from, fields) {
 	return proto;
 }
 var MainClient = function() {
-	var _gthis = this;
-	$(window.document).ready(function() {
-		console.log("MainClient document ready!");
-		if(window.location.href.indexOf("localhost") != -1) {
-			_gthis.url = "http://localhost:" + "5000";
-		} else {
-			_gthis.url = "https://skeletor.herokuapp.com/";
-		}
-		console.log("body.id : " + window.document.body.id);
-		_gthis.init(window.document.body.id);
-	});
+	if(window.location.href.indexOf("localhost") != -1) {
+		this.url = "http://localhost:" + "5000";
+	} else {
+		this.url = "https://skeletor.herokuapp.com/";
+	}
+	this.socket = io.connect(this.url);
+	console.log("body.id : " + window.document.body.id);
+	this.init(window.document.body.id);
 };
 MainClient.__name__ = true;
 MainClient.main = function() {
@@ -25,20 +22,22 @@ MainClient.main = function() {
 };
 MainClient.prototype = {
 	init: function(pageid) {
-		this.socket = io.connect(this.url);
 		switch(pageid) {
+		case "page-about":
+			this.initPageAbout();
+			break;
 		case "page-home":
 			console.log("page-home");
 			break;
+		case "page-list":
+			this.initPageList();
+			break;
 		case "page-toggle":
-			console.log("page-toggle");
 			this.initPageToggle();
 			break;
 		default:
 			console.log("case '" + pageid + "': trace ('" + pageid + "');");
 		}
-		this.initVue();
-		this.initSocket();
 	}
 	,initPageToggle: function() {
 		var _gthis = this;
@@ -53,65 +52,44 @@ MainClient.prototype = {
 			_gthis.socket.emit("toggle",{ checked : isChecked});
 		});
 	}
-	,initVue: function() {
-		this.loading = new Vue({ el : "#loading", data : { showloading : true}});
-		this.app = new Vue({ el : "#app", data : { message : "Hello Vue.js!"}});
-		if(window.document.getElementById("example-1") != null) {
-			this.example1 = new Vue({ el : "#example-1", data : { items : [{ message : "Foo"},{ message : "Bar"}]}});
-		}
-		if(window.document.getElementById("example-2") != null) {
-			this.example2 = new Vue({ el : "#example-2", data : { items : [{ message : "1Foo"},{ message : "2Bar"}]}});
-		}
-		Vue.component("todo-item",{ props : ["todo"], template : "<li>{{ todo.text }}</li>"});
-		Vue.component("reaction-item",{ props : ["react"], template : "<span class=\"badge badge-primary bigger-badge\">{{ react.name }} {{ react.count }}</span>"});
-		var app7 = new Vue({ el : "#app-7", data : { groceryList : [{ id : 0, text : "Vegetables"},{ id : 1, text : "Cheese"},{ id : 2, text : "Whatever else humans are supposed to eat"}], reactions : [{ "name" : "+1", "users" : ["U2XFA5KM4","U02BA6Q72"], "count" : 2},{ "name" : "-1", "users" : ["U2XFA5KM4"], "count" : 1}]}, computed : { totalMarks : function() {
-			var total = 100;
-			return total;
-		}}});
-	}
-	,initSocket: function() {
+	,initPageAbout: function() {
 		var _gthis = this;
-		this.socket.on("message",function(data) {
-			console.log("" + JSON.stringify(data));
-			_gthis.app.$data.message = data.message;
-		});
-		this.socket.on("channels",function(data1) {
-		});
-		this.socket.on("list.update",function(data2) {
-			console.log("list.update :: " + data2);
-		});
-		this.socket.on("list",function(data3) {
-			console.log("" + JSON.stringify(data3));
-			var json = data3;
-			var arr = [];
-			var _g = 0;
-			while(_g < json.length) {
-				var link = json[_g];
-				++_g;
-				console.log(link);
-				arr.push(link);
-			}
-			_gthis.example2.$data.items = arr;
-			_gthis.loading.$data.showloading = false;
-		});
-		this.socket.on("test:ping",function(data4) {
-			console.log("test:ping");
-			_gthis.showSnackbar("test:ping :: " + data4);
-		});
+		new Vue({ el : "#app", data : { message : "Hello to " + "[Skeletor]" + "!", items : [{ message : "Something clever as point one"},{ message : "But more important is point two"}]}});
+		this.showLoading(true);
+		setTimeout(function() {
+			_gthis.showLoading(false);
+		},3000);
 	}
-	,showSnackbar: function(msg) {
-		var x = window.document.getElementById("snackbar");
+	,initPageList: function() {
+		var _gthis = this;
+		this.showLoading(true);
+		var vm = new Vue({ el : "#app", data : { message : "Hello to " + "[Skeletor]" + "!", testArr : [{ "id" : "foo"}], items : [], itemz : [{ message : "z Something clever as point one"},{ message : "z But more important is point two"}]}, created : function() {
+			var scope = this;
+			Vue.http.get("http://localhost:5000/api/id").then(function(response) {
+				var temp = [{ message : "zzz Something clever as point one"},{ message : "zzz But more important is point two"}];
+				scope.itemz = temp;
+				scope.items = response.body;
+				_gthis.showLoading(false);
+			});
+		}});
+	}
+	,showLoading: function(isLoading,isDark) {
+		if(isDark == null) {
+			isDark = false;
+		}
+		var x = window.document.getElementById("loading");
 		if(x == null) {
 			var div = window.document.createElement("div");
-			div.id = "snackbar";
+			div.id = "loading";
+			div.innerHTML = "<i class=\"fa fa-refresh fa-spin fa-3x fa-fw\"></i><span class=\"sr-only\">Loading...</span>";
 			window.document.body.appendChild(div);
 			x = div;
 		}
-		x.innerText = msg;
-		x.className = "show";
-		setTimeout(function() {
-			x.className = x.className.replace("show","");
-		},3000);
+		if(isLoading) {
+			x.className = "show";
+		} else {
+			x.className = "hide";
+		}
 	}
 	,__class__: MainClient
 };
