@@ -64,6 +64,13 @@ HxOverrides.substr = function(s,pos,len) {
 	}
 	return s.substr(pos,len);
 };
+HxOverrides.iter = function(a) {
+	return { cur : 0, arr : a, hasNext : function() {
+		return this.cur < this.arr.length;
+	}, next : function() {
+		return this.arr[this.cur++];
+	}};
+};
 var List = function() {
 	this.length = 0;
 };
@@ -109,6 +116,9 @@ List.prototype = {
 	,isEmpty: function() {
 		return this.h == null;
 	}
+	,iterator: function() {
+		return new _$List_ListIterator(this.h);
+	}
 	,__class__: List
 };
 var _$List_ListNode = function(item,next) {
@@ -118,6 +128,21 @@ var _$List_ListNode = function(item,next) {
 _$List_ListNode.__name__ = true;
 _$List_ListNode.prototype = {
 	__class__: _$List_ListNode
+};
+var _$List_ListIterator = function(head) {
+	this.head = head;
+};
+_$List_ListIterator.__name__ = true;
+_$List_ListIterator.prototype = {
+	hasNext: function() {
+		return this.head != null;
+	}
+	,next: function() {
+		var val = this.head.item;
+		this.head = this.head.next;
+		return val;
+	}
+	,__class__: _$List_ListIterator
 };
 var MainHeroku = function() {
 	console.log("[Skeletor]" + " build: " + model_constants_App.BUILD);
@@ -635,7 +660,7 @@ haxe_Template.prototype = {
 			var e4 = e[2];
 			var v2 = e4();
 			try {
-				var x2 = v2.iterator();
+				var x2 = $iterator(v2)();
 				if(x2.hasNext == null) {
 					throw new js__$Boot_HaxeError(null);
 				}
@@ -1019,6 +1044,7 @@ server_Router.init = function(app) {
 	app.get("/logout",server_controller_Login.logout);
 	app.get("/login",server_controller_Login.login);
 	app.post("/login",server_controller_Login.loginPost);
+	app.get("/admin/users",server_controller_Admin.users);
 	app.get("/api",server_controller_Api.api);
 	app.get("/api/id",server_controller_Api.apiId);
 	app.post("/api",server_controller_Api.apiPost);
@@ -1026,6 +1052,12 @@ server_Router.init = function(app) {
 	app.get("/test/id",server_controller_Test.testId);
 	app.get("/test/:id",server_controller_Test.testById);
 	app.get("/test/foo/:id",server_controller_Test.testFooById);
+};
+var server_controller_Admin = function() { };
+server_controller_Admin.__name__ = true;
+server_controller_Admin.users = function(req,res) {
+	var _url = __dirname + "/private/api_id.json";
+	res.send(server_Controller.useTemplate(__dirname + "/public/_admin.html",__dirname + "/public/_nav.html"));
 };
 var server_controller_Api = function() { };
 server_controller_Api.__name__ = true;
@@ -1074,6 +1106,7 @@ server_controller_Test.testById = function(req,res) {
 server_controller_Test.testFooById = function(req,res) {
 	res.send("testFooById: " + Std.string(req.params.id));
 };
+function $iterator(o) { if( o instanceof Array ) return function() { return HxOverrides.iter(o); }; return typeof(o.iterator) == 'function' ? $bind(o,o.iterator) : o.iterator; }
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 String.prototype.__class__ = String;
@@ -1094,7 +1127,7 @@ haxe_Template.expr_int = new EReg("^[0-9]+$","");
 haxe_Template.expr_float = new EReg("^([+-]?)(?=\\d|,\\d)\\d*(,\\d*)?([Ee]([+-]?\\d+))?$","");
 haxe_Template.globals = { };
 js_Boot.__toStr = ({ }).toString;
-model_constants_App.BUILD = "2017-11-13 16:48:17";
+model_constants_App.BUILD = "2017-11-14 17:17:06";
 MainHeroku.main();
 })(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
 

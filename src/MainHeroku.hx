@@ -18,6 +18,7 @@ import js.npm.express.Response;
 
 import model.constants.App;
 import server.Router;
+import server.controller.*;
 
 import haxe.Timer;
 using StringTools;
@@ -37,6 +38,8 @@ class MainHeroku {
 		console.log('${App.PROJECT_NAME} build: ${App.BUILD}');
 
 		trace('${App.PROJECT_NAME} start Heroku server');
+
+		// Admin.init();
 
 		var port = Sys.getEnv("PORT");
 		if(port == null) port = App.PORT;

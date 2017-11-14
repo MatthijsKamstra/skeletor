@@ -112,7 +112,7 @@ class MainClient {
 				]
 			},
 			created: function (){
-				var scope = js.Lib.nativeThis;
+				var vm = js.Lib.nativeThis;
 				vue.VueResource.get('http://localhost:5000/api/id').then(function(response:vue.VueResource.Response){
 					// trace(response.body);
 					// var json = (haxe.Json.parse(haxe.Json.stringify(response.body)));
@@ -124,9 +124,9 @@ class MainClient {
 						{ message: 'zzz Something clever as point one' },
 						{ message: 'zzz But more important is point two' }
 					];
-					scope.itemz = temp;
-					scope.items = response.body;
-					// scope.items = json;
+					vm.itemz = temp;
+					vm.items = response.body;
+					// vm.items = json;
 					showLoading(false);
 				});
 			}

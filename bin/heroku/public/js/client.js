@@ -64,11 +64,11 @@ MainClient.prototype = {
 		var _gthis = this;
 		this.showLoading(true);
 		var vm = new Vue({ el : "#app", data : { message : "Hello to " + "[Skeletor]" + "!", testArr : [{ "id" : "foo"}], items : [], itemz : [{ message : "z Something clever as point one"},{ message : "z But more important is point two"}]}, created : function() {
-			var scope = this;
+			var vm1 = this;
 			Vue.http.get("http://localhost:5000/api/id").then(function(response) {
 				var temp = [{ message : "zzz Something clever as point one"},{ message : "zzz But more important is point two"}];
-				scope.itemz = temp;
-				scope.items = response.body;
+				vm1.itemz = temp;
+				vm1.items = response.body;
 				_gthis.showLoading(false);
 			});
 		}});

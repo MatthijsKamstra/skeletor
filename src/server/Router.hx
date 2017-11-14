@@ -28,6 +28,8 @@ class Router {
 		app.get('/login', server.controller.Login.login);
 		app.post('/login', server.controller.Login.loginPost);
 
+		app.get('/admin/users', server.controller.Admin.users);
+
 		// api
 		app.get('/api', server.controller.Api.api);
 		app.get('/api/id', server.controller.Api.apiId);

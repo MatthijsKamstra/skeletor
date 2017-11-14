@@ -3,6 +3,7 @@
 -lib hxnodejs
 -lib vue
 -lib hxexterns
+-lib haxelow
 
 # Integrate files to classpath
 -cp src

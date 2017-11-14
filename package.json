@@ -8,7 +8,7 @@
 	"scripts": {
 		"prewatch": "haxe build_all.hxml",
 		"watch": "npm run watch:haxe2",
-		"watch:haxe2": "onchange 'src/*' 'src/*/*' 'src/*/*/*' 'src/*/*/*/*' -v -- haxe build_all.hxml & nodemon bin/heroku/index.js --ignore bin/heroku/_data/ & livereload bin/heroku -w 1000",
+		"watch:haxe2": "onchange 'src/*' 'src/*/*' 'src/*/*/*' 'src/*/*/*/*' -v -- haxe build_all.hxml & nodemon bin/heroku/index.js --ignore bin/heroku/_data/ --ignore bin/heroku/private/db/ & livereload bin/heroku -w 1000",
 		"watch:haxe": "onchange 'src/*' 'src/*/*' 'src/*/*/*' 'src/*/*/*/*' -v -- haxe build_all.hxml",
 		"build": "npm run build:release",
 		"build:release": "haxe build_all.hxml",

@@ -2,7 +2,9 @@
 -lib js-kit
 -lib vue
 -lib hxexterns
+-lib haxelow
 # -lib hxnodejs
+
 # source folder
 -cp src
 # -cp externs

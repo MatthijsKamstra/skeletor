@@ -1,0 +1,26 @@
+{
+     "server.controller.SomeObject" : [
+         {
+             "_hxcls" : "server.controller.SomeObject"
+            ,"id" : "b7a32089-b0f4-435e-9163-ccb5bb99c89a"
+            ,"name" : "Name"
+            ,"array" : [
+                 1
+                ,2
+                ,3
+            ]
+            ,"internal" : "internal"
+        }
+        ,{
+             "_hxcls" : "server.controller.SomeObject"
+            ,"id" : "b7a321cf-8770-411c-9ab1-5d6be50d84be"
+            ,"name" : "Name"
+            ,"array" : [
+                 1
+                ,2
+                ,3
+            ]
+            ,"internal" : "internal"
+        }
+    ]
+}

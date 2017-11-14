@@ -18,18 +18,18 @@ this is a bootstrap project for a quick backend in node.js (usually deployed to 
 - [Vue.js](https://vuejs.org/) a progressive framework for building user interfaces.
 - [Fontawesome](http://fontawesome.io/icons/) for nice icons
 - Simple authencation
-	- Sessions
+	- based upon Sessions
 - toggle button with socket action back and forth
-- api
-- json example
+- basic api
+- example code vue.js
+- vue.js http json example
 - templating for navbar (haxe templating?) #WIP
 
 ## todo
 
 - json db (Heroku doesn't save files saved in folder like `.json` db , but locally saved data can be uploaded)
 - pass/user in json.db
-- use haxelow / lowdb for db
-- example code vue.js
+- use [haxelow](https://github.com/ciscoheat/haxelow) / lowdb for db
 
 
 
