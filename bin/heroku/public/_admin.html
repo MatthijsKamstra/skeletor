@@ -18,35 +18,37 @@
 
     ::nav::
 
-    <div class="container">
+    <div class="container-fluid">
+
+
+test
 
       <div id="app">
         <p>{{ message }}</p>
-        <li v-for="itemm in itemz">
-          {{ itemm.message }}
-        </li>
+     		<div v-if="ok">loading</div>
+        <div v-else>not loading</div>
 
         <table class="table table-striped">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">user</th>
-              <th scope="col">text</th>
-              <th scope="col">url</th>
-              <th scope="col"><i class="fa fa-clock-o" aria-hidden="true"></i> ts</th>
-              <th scope="col">permalink</th>
-              <th scope="col">reactions</th>
+              <th scope="col">id</th>
+              <th scope="col">access</th>
+              <th scope="col">name</th>
+              <th scope="col">pass</th>
+              <th scope="col">key</th>
+              <th scope="col"><i class="fa fa-clock-o" aria-hidden="true"></i> createdAt</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item,index) in items">
               <th scope="row">{{ index + 1 }}</th>
-              <td>{{ item.message.user }}</td>
-              <td>{{ item.message.text }}</td>
-              <td><a v-bind:href="item.message.attachments[0].from_url" target="_blank" v-bind:title="item.message.attachments[0].from_url"><i class="fa fa-link" aria-hidden="true"></i></a></td>
-              <td>{{ item.message.ts }}</td>
-              <td><a v-bind:href="item.message.permalink" target="_blank" v-bind:title="item.message.permalink"><i class="fa fa-slack" aria-hidden="true"></i> <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
-              <td>{{ item.message.reactions }}</td>
+              <td>{{ item.id }}</td>
+              <td>{{ item.access }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.pass }}</td>
+              <td>{{ item.key }}</td>
+              <td>{{ item.createdAt }}</td>
             </tr>
           </tbody>
         </table>

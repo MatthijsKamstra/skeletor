@@ -102,6 +102,10 @@ class MainHeroku {
 			socket.on("list:get", function (data){
 				trace("yesssssssss");
 			});
+			socket.on("admin:user:get", function (data){
+				trace("admin:user:get");
+				Admin.getUsers();
+			});
 		});
 
 		// use this last...

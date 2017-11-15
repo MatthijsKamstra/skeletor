@@ -53,6 +53,9 @@ class MainClient {
 				initPageAbout();
 			case 'page-list':
 				initPageList();
+			case 'page-admin-users':
+				// trace ('page-admin-users');
+				initPageAdminUsers();
 			default : trace ("case '"+pageid+"': trace ('"+pageid+"');");
 		}
 		// showSnackbar('hello');
@@ -60,6 +63,24 @@ class MainClient {
 		// initSocket();
 	}
 
+	function initPageAdminUsers(){
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				message: 'Hello to ${App.PROJECT_NAME}!',
+				ok : true,
+				items : []
+			}
+		});
+		socket.on('admin:users:set', function (data) {
+			// trace('client - admin:users:set :: ${haxe.Json.stringify(data)}');
+			// trace(data.ok);
+			// trace(data.data);
+			vm.data.ok = !data.ok;
+			vm.data.items = data.data;
+		});
+		socket.emit('admin:user:get');
+	}
 
 	function initPageToggle(){
 		trace('initPageToggle');
@@ -83,10 +104,10 @@ class MainClient {
 			el: '#app',
 			data: {
 				message: 'Hello to ${App.PROJECT_NAME}!',
-					items: [
-						{ message: 'Something clever as point one' },
-						{ message: 'But more important is point two' }
-					]
+				items: [
+					{ message: 'Something clever as point one' },
+					{ message: 'But more important is point two' }
+				]
 			}
 		});
 		showLoading(true);

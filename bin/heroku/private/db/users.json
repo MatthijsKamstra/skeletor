@@ -1,0 +1,31 @@
+{
+     "server.controller.UserObj" : [
+         {
+             "_hxcls" : "server.controller.UserObj"
+            ,"id" : "c03f5e4f-4134-4051-9c4f-7222feaf0f48"
+            ,"access" : "user"
+            ,"name" : "matthijs-user"
+            ,"pass" : "user123"
+            ,"key" : "3065f14da8a22961aa351fdf47fa6347"
+            ,"createdAt" : "2017-11-15 16:14:59"
+        }
+        ,{
+             "_hxcls" : "server.controller.UserObj"
+            ,"id" : "c03f5e50-1776-4b0c-9d96-fe59d991bab0"
+            ,"access" : "super"
+            ,"name" : "matthijs-super"
+            ,"pass" : "super123"
+            ,"key" : "a0bb2d35230f6a940ab059d503dbbfea"
+            ,"createdAt" : "2017-11-15 16:14:59"
+        }
+        ,{
+             "_hxcls" : "server.controller.UserObj"
+            ,"id" : "c03f5e50-8da9-4b80-9f95-95b3d5256cb2"
+            ,"access" : "admin"
+            ,"name" : "matthijs-admin"
+            ,"pass" : "admin123"
+            ,"key" : "397953d5be1d23dde51340f6a4482c62"
+            ,"createdAt" : "2017-11-15 16:14:59"
+        }
+    ]
+}

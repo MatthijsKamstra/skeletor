@@ -26,6 +26,9 @@ MainClient.prototype = {
 		case "page-about":
 			this.initPageAbout();
 			break;
+		case "page-admin-users":
+			this.initPageAdminUsers();
+			break;
 		case "page-home":
 			console.log("page-home");
 			break;
@@ -38,6 +41,14 @@ MainClient.prototype = {
 		default:
 			console.log("case '" + pageid + "': trace ('" + pageid + "');");
 		}
+	}
+	,initPageAdminUsers: function() {
+		var vm = new Vue({ el : "#app", data : { message : "Hello to " + "[Skeletor]" + "!", ok : true, items : []}});
+		this.socket.on("admin:users:set",function(data) {
+			vm.$data.ok = !data.ok;
+			vm.$data.items = data.data;
+		});
+		this.socket.emit("admin:user:get");
 	}
 	,initPageToggle: function() {
 		var _gthis = this;

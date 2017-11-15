@@ -29,6 +29,7 @@ class Router {
 		app.post('/login', server.controller.Login.loginPost);
 
 		app.get('/admin/users', server.controller.Admin.users);
+		app.get('/admin/init', server.controller.Admin.init);
 
 		// api
 		app.get('/api', server.controller.Api.api);

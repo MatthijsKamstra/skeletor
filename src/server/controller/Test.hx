@@ -24,17 +24,38 @@ class Test {
 		res.send(Fs.readFileSync(_url, "utf8"));
 	}
 	public static function testId(req:Request,res:Response) {
-		res.sendfile(Node.__dirname + '/public/test.html');
+		// res.sendfile(Node.__dirname + '/public/test.html');
+		var json = {
+			"id": "yes"
+		};
+		res.send(json);
 	}
 	public static function testById(req:Request,res:Response) {
-		res.send('testById: ${req.params.id}');
 		var _id = req.params.id;
 		// var _url = Node.__dirname +  '/_data/${Folder.GITLAB}/gitlab_project_issues_${_id}.json';
 		// res.send(haxe.Json.parse(Fs.readFileSync(_url, "utf8")));
 		// res.sendfile(Node.__dirname + '/public/test.html');
+
+
+		var json = {
+			"id" : _id,
+			"text" : "Something clever"
+		};
+
+		res.send(json);
 	}
 	public static function testFooById(req:Request,res:Response) {
-		res.send('testFooById: ${req.params.id}');
+		// res.send('testFooById: ${req.params.id}');
 		// res.sendfile(Node.__dirname + '/public/test.html');
+
+		var _id = req.params.id;
+		var json = [ 			{
+			"id" : _id,
+			"text" : "Something clever",
+			"foo" : true
+		}];
+
+		res.send(json);
+
 	}
 }
