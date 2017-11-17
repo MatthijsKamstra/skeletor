@@ -42,7 +42,9 @@ class Controller {
 	}
 	public static function secure(req:Request,res:Response) {
 		// res.send('secure: ${App.BUILD}');
-		res.sendfile(Node.__dirname + '/public/secure.html');
+		res.send(Controller.useTemplate(Node.__dirname + '/public/_secure.html', Node.__dirname + '/public/_nav.html'));
+
+		// res.sendfile(Node.__dirname + '/public/_secure.html');
 		var io = MainHeroku.io;
 		io.sockets.emit('version', App.BUILD);
 	}

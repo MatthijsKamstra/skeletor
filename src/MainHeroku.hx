@@ -127,15 +127,15 @@ class MainHeroku {
 	 *  @param next -
 	 */
 	function checkAuth (req:Dynamic, res, next) {
-		// console.log('checkAuth ' + req.url);
+		console.log('checkAuth ' + req.url);
 		// trace('${req.url}');
 		// trace('${req.session}');
 		// trace('${req.session.authenticated }');
 
-		var loginPathArray = ['/secure', '/secure1'];
+		var loginPathArray = ['/secure', '/secure1', '/admin'];
 		var secureURL = false;
 		for (i in loginPathArray){
-			if(i == req.url) secureURL = true;
+			if(i == req.url || req.url.indexOf(i) != -1) secureURL = true;
 		}
 
 		// don't serve /secure to those not logged in

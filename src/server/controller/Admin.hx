@@ -6,24 +6,24 @@ import js.npm.express.Request;
 import js.npm.express.Response;
 
 class UserObj {
-	public function new(name,pass,access) {
+	public function new(name,pass,role) {
 		this.name = name;
 		this.pass = pass;
-		this.access = access;
+		this.role = role;
 		this.key = haxe.crypto.Md5.encode(name+pass);
 		this.createdAt =  Date.now().toString();
 	}
 
 	// Easy way to generate a v4 UUID:
     public var id(default, null) : String = HaxeLow.uuid();
-	public var access : UserAcces;
+	public var role : UserRoles;
 	public var name : String;
 	public var pass : String;
 	public var key : String;
 	public var createdAt : String;
 }
 
-@:enum abstract UserAcces(String) {
+@:enum abstract UserRoles(String) {
 	var Admin = 'admin';
 	var Super = 'super';
 	var User = 'user';
@@ -41,9 +41,9 @@ class Admin {
 		var arr = db.idCol(UserObj);
 
 		var userObjArr = [
-			new UserObj('matthijs-user','user123', UserAcces.User),
-			new UserObj('matthijs-super','super123', UserAcces.Super),
-			new UserObj('matthijs-admin','admin123', UserAcces.Admin)
+			new UserObj('matthijs-user','user123', UserRoles.User),
+			new UserObj('matthijs-super','super123', UserRoles.Super),
+			new UserObj('matthijs-admin','admin123', UserRoles.Admin)
 		];
 
 		for (newUserObj in userObjArr){
@@ -77,6 +77,16 @@ class Admin {
 		// var _url = Node.__dirname +  '/private/api_id.json';
 		// res.send(Fs.readFileSync(_url, "utf8"));
 		res.send(Controller.useTemplate(Node.__dirname + '/public/_admin.html', Node.__dirname + '/public/_nav.html'));
+		// getUsers();
+
+
+		// admin:users:get
+	}
+	public static function start(req:Request,res:Response) {
+		// res.send('api: ${App.BUILD}');
+		// var _url = Node.__dirname +  '/private/api_id.json';
+		// res.send(Fs.readFileSync(_url, "utf8"));
+		res.send(Controller.useTemplate(Node.__dirname + '/public/_secure.html', Node.__dirname + '/public/_nav.html'));
 		// getUsers();
 
 

@@ -92,7 +92,13 @@ simple session based login (no db)
 rest api
 
 - https://medium.com/@jeffandersen/building-a-node-js-rest-api-with-express-46b0901f29b6
+- http://thejackalofjavascript.com/architecting-a-restful-node-js-app/
+- https://www.rapiddg.com/blog/calling-rest-api-nodejs-script
 
+
+token
+
+- https://medium.freecodecamp.org/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52
 
 
 

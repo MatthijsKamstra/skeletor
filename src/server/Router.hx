@@ -28,6 +28,7 @@ class Router {
 		app.get('/login', server.controller.Login.login);
 		app.post('/login', server.controller.Login.loginPost);
 
+		app.get('/admin', server.controller.Admin.start);
 		app.get('/admin/users', server.controller.Admin.users);
 		app.get('/admin/init', server.controller.Admin.init);
 

@@ -409,13 +409,14 @@ MainHeroku.prototype = {
 	app: null
 	,server: null
 	,checkAuth: function(req,res,next) {
-		var loginPathArray = ["/secure","/secure1"];
+		console.log("checkAuth " + Std.string(req.url));
+		var loginPathArray = ["/secure","/secure1","/admin"];
 		var secureURL = false;
 		var _g = 0;
 		while(_g < loginPathArray.length) {
 			var i = loginPathArray[_g];
 			++_g;
-			if(i == req.url) {
+			if(i == req.url || req.url.indexOf(i) != -1) {
 				secureURL = true;
 			}
 		}
@@ -1643,7 +1644,7 @@ server_Controller.version = function(req,res) {
 	io.sockets.emit("version",model_constants_App.BUILD);
 };
 server_Controller.secure = function(req,res) {
-	res.sendfile(__dirname + "/public/secure.html");
+	res.send(server_Controller.useTemplate(__dirname + "/public/_secure.html",__dirname + "/public/_nav.html"));
 	var io = MainHeroku.io;
 	io.sockets.emit("version",model_constants_App.BUILD);
 };
@@ -1681,6 +1682,7 @@ server_Router.init = function(app) {
 	app.get("/logout",server_controller_Login.logout);
 	app.get("/login",server_controller_Login.login);
 	app.post("/login",server_controller_Login.loginPost);
+	app.get("/admin",server_controller_Admin.start);
 	app.get("/admin/users",server_controller_Admin.users);
 	app.get("/admin/init",server_controller_Admin.init);
 	app.get("/api",server_controller_Api.api);
@@ -1691,11 +1693,11 @@ server_Router.init = function(app) {
 	app.get("/test/:id",server_controller_Test.testById);
 	app.get("/test/foo/:id",server_controller_Test.testFooById);
 };
-var server_controller_UserObj = function(name,pass,access) {
+var server_controller_UserObj = function(name,pass,role) {
 	this.id = HaxeLow.uuid();
 	this.name = name;
 	this.pass = pass;
-	this.access = access;
+	this.role = role;
 	this.key = haxe_crypto_Md5.encode(name + pass);
 	this.createdAt = HxOverrides.dateStr(new Date());
 };
@@ -1703,7 +1705,7 @@ $hxClasses["server.controller.UserObj"] = server_controller_UserObj;
 server_controller_UserObj.__name__ = ["server","controller","UserObj"];
 server_controller_UserObj.prototype = {
 	id: null
-	,access: null
+	,role: null
 	,name: null
 	,pass: null
 	,key: null
@@ -1751,6 +1753,9 @@ server_controller_Admin.getUsers = function() {
 };
 server_controller_Admin.users = function(req,res) {
 	res.send(server_Controller.useTemplate(__dirname + "/public/_admin.html",__dirname + "/public/_nav.html"));
+};
+server_controller_Admin.start = function(req,res) {
+	res.send(server_Controller.useTemplate(__dirname + "/public/_secure.html",__dirname + "/public/_nav.html"));
 };
 var server_controller_Api = function() { };
 $hxClasses["server.controller.Api"] = server_controller_Api;
@@ -2395,7 +2400,7 @@ haxe_Template.expr_int = new EReg("^[0-9]+$","");
 haxe_Template.expr_float = new EReg("^([+-]?)(?=\\d|,\\d)\\d*(,\\d*)?([Ee]([+-]?\\d+))?$","");
 haxe_Template.globals = { };
 js_Boot.__toStr = ({ }).toString;
-model_constants_App.BUILD = "2017-11-15 16:16:15";
+model_constants_App.BUILD = "2017-11-17 21:37:09";
 tjson_TJSON.OBJECT_REFERENCE_PREFIX = "@~obRef#";
 MainHeroku.main();
 })(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);

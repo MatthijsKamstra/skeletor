@@ -20,9 +20,6 @@
 
     <div class="container-fluid">
 
-
-test
-
       <div id="app">
         <p>{{ message }}</p>
      		<div v-if="ok">loading</div>
@@ -33,7 +30,7 @@ test
             <tr>
               <th scope="col">#</th>
               <th scope="col">id</th>
-              <th scope="col">access</th>
+              <th scope="col">role</th>
               <th scope="col">name</th>
               <th scope="col">pass</th>
               <th scope="col">key</th>
@@ -44,7 +41,7 @@ test
             <tr v-for="(item,index) in items">
               <th scope="row">{{ index + 1 }}</th>
               <td>{{ item.id }}</td>
-              <td>{{ item.access }}</td>
+              <td>{{ item.role }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.pass }}</td>
               <td>{{ item.key }}</td>
