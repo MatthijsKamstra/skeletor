@@ -30,6 +30,7 @@ class UserObj {
 }
 
 class Admin {
+
 	public function new () {
 		// your code
 	}
@@ -61,7 +62,6 @@ class Admin {
 		if(res != null) res.send('{}');
 	}
 
-
 	public static function getUsers() {
 		trace('getUsers()');
 		var filename = Node.__dirname + '/private/db/users.json';
@@ -72,6 +72,7 @@ class Admin {
 		// haxe.Timer.delay(function (){
 		// }, 3000);
 	}
+
 	public static function users(req:Request,res:Response) {
 		// res.send('api: ${App.BUILD}');
 		// var _url = Node.__dirname +  '/private/api_id.json';
@@ -79,16 +80,20 @@ class Admin {
 		res.send(Controller.useTemplate(Node.__dirname + '/public/_admin.html', Node.__dirname + '/public/_nav.html'));
 		// getUsers();
 
+		// is just a guess
+		haxe.Timer.delay(function (){
+			getUsers();
+		}, 1000);
 
 		// admin:users:get
 	}
+
 	public static function start(req:Request,res:Response) {
 		// res.send('api: ${App.BUILD}');
 		// var _url = Node.__dirname +  '/private/api_id.json';
 		// res.send(Fs.readFileSync(_url, "utf8"));
 		res.send(Controller.useTemplate(Node.__dirname + '/public/_secure.html', Node.__dirname + '/public/_nav.html'));
 		// getUsers();
-
 
 		// admin:users:get
 	}
