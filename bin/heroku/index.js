@@ -2400,7 +2400,7 @@ haxe_Template.expr_int = new EReg("^[0-9]+$","");
 haxe_Template.expr_float = new EReg("^([+-]?)(?=\\d|,\\d)\\d*(,\\d*)?([Ee]([+-]?\\d+))?$","");
 haxe_Template.globals = { };
 js_Boot.__toStr = ({ }).toString;
-model_constants_App.BUILD = "2017-11-17 21:37:09";
+model_constants_App.BUILD = "2017-12-19 16:14:17";
 tjson_TJSON.OBJECT_REFERENCE_PREFIX = "@~obRef#";
 MainHeroku.main();
 })(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);

@@ -15,6 +15,7 @@ class Api {
 	public static function api(req:Request,res:Response) {
 		res.send('api: ${App.BUILD}');
 	}
+
 	public static function apiPost(req:Request,res:Response) {
 		console.log('api');
 		console.log(req);
@@ -22,6 +23,7 @@ class Api {
 		// console.log(res.body);
 		// console.log(req.body);
 	}
+
 	public static function apiId(req:Request,res:Response) {
 		var _url = Node.__dirname +  '/private/api_id.json';
 		res.send(Fs.readFileSync(_url, "utf8"));

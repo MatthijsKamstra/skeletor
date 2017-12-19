@@ -132,6 +132,7 @@ class MainHeroku {
 		// trace('${req.session}');
 		// trace('${req.session.authenticated }');
 
+		// add more paths to add them to the secure login
 		var loginPathArray = ['/secure', '/secure1', '/admin'];
 		var secureURL = false;
 		for (i in loginPathArray){
