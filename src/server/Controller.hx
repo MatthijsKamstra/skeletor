@@ -23,6 +23,12 @@ class Controller {
 		res.send(Controller.useTemplate(Node.__dirname + '/public/_list.html', Node.__dirname + '/public/_nav.html'));
 	}
 
+	public static function port(req:Request,res:Response) {
+		var port = Sys.getEnv("PORT");
+		if(port == null) port = App.PORT;
+		res.send( '{ "port" : "${port}" }' );
+	}
+
 	public static function ping(req:Request,res:Response) {
 		res.send('test:ping');
 		var io = MainHeroku.io;

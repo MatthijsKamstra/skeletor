@@ -11,6 +11,7 @@ class Router {
 		app.get('/', Controller.index);
 		app.get('/about', Controller.about);
 		app.get('/list', Controller.list);
+		app.get('/port', Controller.port);
 
 		// admin
 		app.get('/secure', Controller.secure);
