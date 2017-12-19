@@ -13,7 +13,8 @@ import model.constants.App;
 class Controller {
 
 	public static function index(req:Request,res:Response) {
-		res.send(Controller.useTemplate(Node.__dirname + '/public/_index.html', Node.__dirname + '/public/_nav.html'));
+		res.send(Controller.useTemplate(Node.__dirname + '/public/_index.html')); // if the index is just a placeholder
+		// res.send(Controller.useTemplate(Node.__dirname + '/public/_index.html', Node.__dirname + '/public/_nav.html'));
 	}
 	public static function about(req:Request,res:Response) {
 		res.send(Controller.useTemplate(Node.__dirname + '/public/_about.html', Node.__dirname + '/public/_nav.html'));
@@ -60,9 +61,10 @@ class Controller {
 		io.sockets.emit('update', App.BUILD);
 	}
 
-	public static function useTemplate(htmlPath:String, navPath:String){
+	public static function useTemplate(htmlPath:String, ?navPath:String){
 		var _html = (Fs.readFileSync(htmlPath, 'utf8'));
-		var _nav = (Fs.readFileSync(navPath, 'utf8'));
+		var _nav = '';
+		if(navPath != null) _nav = (Fs.readFileSync(navPath, 'utf8'));
 		var template = new haxe.Template(_html);
 		var html = template.execute({"nav":_nav});
 		return html;
