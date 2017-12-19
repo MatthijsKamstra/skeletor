@@ -11,6 +11,10 @@ import model.constants.App;
 // import msignal.Signal;
 
 class Login {
+
+	public static var USER : String = 'user';
+	public static var PASS : String = 'pass';
+
 	public function new () {
 		// your code
 	}
@@ -20,9 +24,11 @@ class Login {
 		untyped req.session.destroy();
 		res.redirect('/');
 	}
+
 	public static function login(req:Request,res:Response) {
 		res.sendfile(Node.__dirname + '/public/login.html');
 	}
+
 	public static function loginPost(req:Request,res:Response, next) {
 		// res.sendfile(Node.__dirname + '/public/secure.html');
 		// trace(req);
@@ -31,9 +37,9 @@ class Login {
 
 		// you might like to do a database look-up or something more scalable here
 		if (untyped req.body.username != null &&
-			untyped req.body.username == 'user' &&
+			untyped req.body.username == USER &&
 			untyped req.body.password != null &&
-			untyped req.body.password == 'pass'
+			untyped req.body.password == PASS
 			){
 			untyped req.session.authenticated = true;
 			res.redirect('/secure');
