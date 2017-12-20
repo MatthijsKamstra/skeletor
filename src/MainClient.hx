@@ -85,16 +85,22 @@ class MainClient {
 	function initPageToggle(){
 		trace('initPageToggle');
 
-		socket.on('toggle', function (data) {
-			trace('client - toggle :: ${haxe.Json.stringify(data)}');
+		// socket.emit('toggle:init', 'test from client');
+
+		socket.on('toggle:init', function (data) {
+			trace('client - toggle:init -> ${haxe.Json.stringify(data)}');
+			cast(document.getElementById('toggle-button'), js.html.InputElement ).checked = data.checked;
+		});
+		socket.on('toggle:ischecked', function (data) {
+			trace('client - toggle:ischecked -> ${haxe.Json.stringify(data)}');
 			cast(document.getElementById('toggle-button'), js.html.InputElement ).checked = data.checked;
 		});
 
 		new JQuery('#toggle-button').click(function(e){
 			// e.preventDefault();
-			trace('client - toggle');
 			var isChecked = cast(document.getElementById('toggle-button'), js.html.InputElement ).checked;
-			socket.emit('toggle', { checked: isChecked });
+			socket.emit('toggle:send', { checked: isChecked });
+			trace('client - toggle:send -> checked : ${isChecked}');
 		});
 
 	}

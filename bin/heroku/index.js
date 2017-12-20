@@ -345,13 +345,15 @@ _$List_ListIterator.prototype = {
 	,__class__: _$List_ListIterator
 };
 var MainHeroku = function() {
-	console.log("[Skeletor]" + " build: " + model_constants_App.BUILD);
-	console.log("[Skeletor]" + " start Heroku server");
+	this.TIME = 3000;
+	this.WHO = "[Heroku-server]";
+	var _gthis = this;
+	console.log("" + this.WHO + " " + "[Skeletor]" + " build: " + model_constants_App.BUILD);
+	console.log("" + this.WHO + " " + "[Skeletor]" + " start Heroku server");
 	var port = process.env["PORT"];
 	if(port == null) {
 		port = "5000";
 	}
-	console.log("port: " + port);
 	this.app = new js_npm_Express();
 	this.server = js_node_Http.createServer(this.app);
 	MainHeroku.io = new js_npm_socketio_Server(this.server);
@@ -373,17 +375,21 @@ var MainHeroku = function() {
 		socket.on("disconnect",function(data1) {
 			console.log("user disconnected");
 		});
-		socket.on("toggle",function(data2) {
-			console.log("server toggle: " + Std.string(data2));
+		socket.on("toggle:send",function(data2) {
+			console.log("" + _gthis.WHO + " toggle:checked: " + Std.string(data2));
 			var isChecked = data2.checked;
+			MainHeroku.io.sockets.emit("toggle:ischecked",{ checked : isChecked});
+			if(_gthis.timer != null) {
+				console.log("kill previous timer");
+				_gthis.timer.stop();
+				_gthis.timer = null;
+			}
 			if(isChecked) {
-				console.log("server - toggle : TRUE : isChecked : " + (isChecked == null ? "null" : "" + isChecked));
-				haxe_Timer.delay(function() {
-					console.log("server - toggle - reset after 3 seconds");
-					MainHeroku.io.sockets.emit("toggle",{ checked : false});
-				},3000);
-			} else {
-				console.log("server - toggle : FALSE : isChecked : " + (isChecked == null ? "null" : "" + isChecked));
+				console.log("start timer");
+				_gthis.timer = haxe_Timer.delay(function() {
+					console.log("" + _gthis.WHO + " toggle - reset after " + _gthis.TIME / 1000 + " seconds");
+					MainHeroku.io.sockets.emit("toggle:ischecked",{ checked : false});
+				},_gthis.TIME);
 			}
 		});
 		socket.on("list:get",function(data3) {
@@ -406,7 +412,10 @@ MainHeroku.main = function() {
 	var app = new MainHeroku();
 };
 MainHeroku.prototype = {
-	app: null
+	WHO: null
+	,TIME: null
+	,timer: null
+	,app: null
 	,server: null
 	,checkAuth: function(req,res,next) {
 		console.log("checkAuth " + Std.string(req.url));
@@ -1620,13 +1629,20 @@ var server_Controller = function() { };
 $hxClasses["server.Controller"] = server_Controller;
 server_Controller.__name__ = ["server","Controller"];
 server_Controller.index = function(req,res) {
-	res.send(server_Controller.useTemplate(__dirname + "/public/_index.html",__dirname + "/public/_nav.html"));
+	res.send(server_Controller.useTemplate(__dirname + "/public/_index.html"));
 };
 server_Controller.about = function(req,res) {
 	res.send(server_Controller.useTemplate(__dirname + "/public/_about.html",__dirname + "/public/_nav.html"));
 };
 server_Controller.list = function(req,res) {
 	res.send(server_Controller.useTemplate(__dirname + "/public/_list.html",__dirname + "/public/_nav.html"));
+};
+server_Controller.port = function(req,res) {
+	var port = process.env["PORT"];
+	if(port == null) {
+		port = "5000";
+	}
+	res.send("{ \"port\" : \"" + port + "\" }");
 };
 server_Controller.ping = function(req,res) {
 	res.send("test:ping");
@@ -1635,7 +1651,7 @@ server_Controller.ping = function(req,res) {
 };
 server_Controller.toggle = function(req,res) {
 	var io = MainHeroku.io;
-	io.sockets.emit("toggle","[Skeletor]");
+	io.sockets.emit("toggle:init","[Skeletor]");
 	res.send(server_Controller.useTemplate(__dirname + "/public/_toggle.html",__dirname + "/public/_nav.html"));
 };
 server_Controller.version = function(req,res) {
@@ -1660,7 +1676,10 @@ server_Controller.update = function(req,res) {
 };
 server_Controller.useTemplate = function(htmlPath,navPath) {
 	var _html = js_node_Fs.readFileSync(htmlPath,"utf8");
-	var _nav = js_node_Fs.readFileSync(navPath,"utf8");
+	var _nav = "";
+	if(navPath != null) {
+		_nav = js_node_Fs.readFileSync(navPath,"utf8");
+	}
 	var template = new haxe_Template(_html);
 	var html = template.execute({ "nav" : _nav});
 	return html;
@@ -1672,6 +1691,7 @@ server_Router.init = function(app) {
 	app.get("/",server_Controller.index);
 	app.get("/about",server_Controller.about);
 	app.get("/list",server_Controller.list);
+	app.get("/port",server_Controller.port);
 	app.get("/secure",server_Controller.secure);
 	app.get("/ping",server_Controller.ping);
 	app.get("/update",server_Controller.update);
@@ -1753,6 +1773,9 @@ server_controller_Admin.getUsers = function() {
 };
 server_controller_Admin.users = function(req,res) {
 	res.send(server_Controller.useTemplate(__dirname + "/public/_admin.html",__dirname + "/public/_nav.html"));
+	haxe_Timer.delay(function() {
+		server_controller_Admin.getUsers();
+	},1000);
 };
 server_controller_Admin.start = function(req,res) {
 	res.send(server_Controller.useTemplate(__dirname + "/public/_secure.html",__dirname + "/public/_nav.html"));
@@ -1783,7 +1806,7 @@ server_controller_Login.login = function(req,res) {
 	res.sendfile(__dirname + "/public/login.html");
 };
 server_controller_Login.loginPost = function(req,res,next) {
-	if(req.body.username != null && (req.body.username == "user" && (req.body.password != null && req.body.password == "pass"))) {
+	if(req.body.username != null && (req.body.username == server_controller_Login.USER && (req.body.password != null && req.body.password == server_controller_Login.PASS))) {
 		req.session.authenticated = true;
 		res.redirect("/secure");
 	} else {
@@ -2400,7 +2423,9 @@ haxe_Template.expr_int = new EReg("^[0-9]+$","");
 haxe_Template.expr_float = new EReg("^([+-]?)(?=\\d|,\\d)\\d*(,\\d*)?([Ee]([+-]?\\d+))?$","");
 haxe_Template.globals = { };
 js_Boot.__toStr = ({ }).toString;
-model_constants_App.BUILD = "2017-12-19 16:14:17";
+model_constants_App.BUILD = "2017-12-20 16:01:16";
+server_controller_Login.USER = "user";
+server_controller_Login.PASS = "pass";
 tjson_TJSON.OBJECT_REFERENCE_PREFIX = "@~obRef#";
 MainHeroku.main();
 })(typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);

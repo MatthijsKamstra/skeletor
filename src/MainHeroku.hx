@@ -29,21 +29,27 @@ using StringTools;
  */
 class MainHeroku {
 
+	var WHO = '[Heroku-server]';
+	var TIME = 3000; // miliseconds wait till reset
+
+	var timer : Timer;
+
+
 	var app : js.npm.Express;
 	var server : js.node.http.Server;
 	public static var io : js.npm.socketio.Server;
 
 
 	public function new () {
-		console.log('${App.PROJECT_NAME} build: ${App.BUILD}');
+		console.log('${WHO} ${App.PROJECT_NAME} build: ${App.BUILD}');
 
-		trace('${App.PROJECT_NAME} start Heroku server');
+		trace('${WHO} ${App.PROJECT_NAME} start Heroku server');
 
 		// Admin.init();
 
 		var port = Sys.getEnv("PORT");
 		if(port == null) port = App.PORT;
-		trace('port: $port');
+		// trace('port: $port');
 
 		app    = new js.npm.Express();
 		server = js.node.Http.createServer( cast app );
@@ -85,18 +91,35 @@ class MainHeroku {
 			socket.on('disconnect', function (data:Dynamic) {
         		console.log('user disconnected');
     		});
-			socket.on('toggle', function (data:Dynamic) {
-        		console.log('server toggle: ${data}');
+			// socket.on('toggle', function (data:Dynamic) {
+   			// 	console.log('server toggle: ${data}');
+			// 	var isChecked = data.checked;
+			// 	if(isChecked){
+			// 		trace('server - toggle : TRUE : isChecked : ${isChecked}');
+			// 		// reset toggle after 3 seconds
+			// 		haxe.Timer.delay(function (){
+			// 			trace('server - toggle - reset after 3 seconds');
+			// 			io.sockets.emit('toggle', {checked:false});
+			// 		}, 3000);
+			// 	} else {
+			// 		trace('server - toggle : FALSE : isChecked : ${isChecked}');
+			// 	}
+   			//});
+     		socket.on('toggle:send', function (data:Dynamic) {
+        		console.log('${WHO} toggle:checked: ${data}');
 				var isChecked = data.checked;
+				io.sockets.emit('toggle:ischecked', {checked:${isChecked}});
+				if(timer != null) {
+					trace('kill previous timer');
+					timer.stop();
+					timer = null;
+				}
 				if(isChecked){
-					trace('server - toggle : TRUE : isChecked : ${isChecked}');
-					// reset toggle after 3 seconds
-					haxe.Timer.delay(function (){
-						trace('server - toggle - reset after 3 seconds');
-						io.sockets.emit('toggle', {checked:false});
-					}, 3000);
-				} else {
-					trace('server - toggle : FALSE : isChecked : ${isChecked}');
+					trace('start timer');
+					timer = haxe.Timer.delay(function (){
+						trace('${WHO} toggle - reset after ${TIME/1000} seconds');
+						io.sockets.emit('toggle:ischecked', {checked:false});
+					}, TIME);
 				}
     		});
 			socket.on("list:get", function (data){

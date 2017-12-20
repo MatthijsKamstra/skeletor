@@ -53,14 +53,18 @@ MainClient.prototype = {
 	,initPageToggle: function() {
 		var _gthis = this;
 		console.log("initPageToggle");
-		this.socket.on("toggle",function(data) {
-			console.log("client - toggle :: " + JSON.stringify(data));
+		this.socket.on("toggle:init",function(data) {
+			console.log("client - toggle:init -> " + JSON.stringify(data));
 			(js_Boot.__cast(window.document.getElementById("toggle-button") , HTMLInputElement)).checked = data.checked;
 		});
+		this.socket.on("toggle:ischecked",function(data1) {
+			console.log("client - toggle:ischecked -> " + JSON.stringify(data1));
+			(js_Boot.__cast(window.document.getElementById("toggle-button") , HTMLInputElement)).checked = data1.checked;
+		});
 		$("#toggle-button").click(function(e) {
-			console.log("client - toggle");
 			var isChecked = (js_Boot.__cast(window.document.getElementById("toggle-button") , HTMLInputElement)).checked;
-			_gthis.socket.emit("toggle",{ checked : isChecked});
+			_gthis.socket.emit("toggle:send",{ checked : isChecked});
+			console.log("client - toggle:send -> checked : " + (isChecked == null ? "null" : "" + isChecked));
 		});
 	}
 	,initPageAbout: function() {

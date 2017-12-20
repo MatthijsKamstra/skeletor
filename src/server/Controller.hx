@@ -37,7 +37,7 @@ class Controller {
 	public static function toggle(req:Request,res:Response) {
 		// res.send('toggle');
 		var io = MainHeroku.io;
-		io.sockets.emit('toggle', App.PROJECT_NAME);
+		io.sockets.emit('toggle:init', App.PROJECT_NAME);
 		// res.sendfile(Node.__dirname + '/public/toggle.html');
 		res.send(Controller.useTemplate(Node.__dirname + '/public/_toggle.html', Node.__dirname + '/public/_nav.html'));
 
