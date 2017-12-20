@@ -17,8 +17,7 @@ this is a bootstrap project for a quick backend in node.js (usually deployed to 
 - [Socket.io](https://socket.io/) FEATURING THE FASTEST AND MOST RELIABLE REAL-TIME ENGINE
 - [Vue.js](https://vuejs.org/) a progressive framework for building user interfaces.
 - [Fontawesome](http://fontawesome.io/icons/) for nice icons
-- Simple authencation
-	- based upon Sessions
+- Simple authencation : based upon Sessions
 - toggle button with socket action back and forth
 - basic api
 - example code vue.js
@@ -65,8 +64,6 @@ haxelib git vue https://github.com/MatthijsKamstra/Vue.hx.git
 - package.json (I only use this for `watch`)
 + bin
 	- package.json (here are your files node.js needs to work)
-
-
 ```
 
 

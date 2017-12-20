@@ -2423,7 +2423,7 @@ haxe_Template.expr_int = new EReg("^[0-9]+$","");
 haxe_Template.expr_float = new EReg("^([+-]?)(?=\\d|,\\d)\\d*(,\\d*)?([Ee]([+-]?\\d+))?$","");
 haxe_Template.globals = { };
 js_Boot.__toStr = ({ }).toString;
-model_constants_App.BUILD = "2017-12-20 16:01:16";
+model_constants_App.BUILD = "2017-12-20 20:38:24";
 server_controller_Login.USER = "user";
 server_controller_Login.PASS = "pass";
 tjson_TJSON.OBJECT_REFERENCE_PREFIX = "@~obRef#";

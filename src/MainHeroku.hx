@@ -34,11 +34,9 @@ class MainHeroku {
 
 	var timer : Timer;
 
-
 	var app : js.npm.Express;
 	var server : js.node.http.Server;
 	public static var io : js.npm.socketio.Server;
-
 
 	public function new () {
 		console.log('${WHO} ${App.PROJECT_NAME} build: ${App.BUILD}');
@@ -177,6 +175,3 @@ class MainHeroku {
 		var app = new MainHeroku ();
 	}
 }
-
-
-
