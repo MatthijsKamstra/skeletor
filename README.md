@@ -24,7 +24,7 @@ this is a bootstrap project for a quick backend in node.js (usually deployed to 
 - vue.js http json example
 - templating for navbar (haxe templating?) #WIP
 
-## todo
+## TODO
 
 - json db (Heroku doesn't save files saved in folder like `.json` db , but locally saved data can be uploaded)
 - pass/user in json.db
@@ -50,7 +50,7 @@ Some stuff that doesn't load easily by haxelib
 # haxe-js-kit for externs
 haxelib git js-kit https://github.com/clemos/haxe-js-kit.git haxelib
 
-# I sometimes us my personal set haxe-externs
+# I sometimes use my personal set haxe-externs
 haxelib git hxexterns https://github.com/MatthijsKamstra/hxexterns.git
 
 # cutting edge vue.js externs
