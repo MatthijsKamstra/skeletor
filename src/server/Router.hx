@@ -4,9 +4,7 @@ import js.npm.Express;
 import server.controller.*;
 
 class Router {
-
-	public static function init(app : Express):Void
-	{
+	public static function init(app:Express):Void {
 		// home / public
 		app.get('/', Controller.index);
 		app.get('/about', Controller.about);

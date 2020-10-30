@@ -1,37 +1,34 @@
 {
-	"license": "MIT",
-	"name": "skeletor",
-	"version": "0.0.1",
-	"description": "Quick way to make a Heroku server (Skeletor)",
-	"private": true,
-	"author": "Matthijs Kamstra aka [mck]",
-	"scripts": {
-		"prewatch": "haxe build_all.hxml",
-		"watch": "npm run watch:heroku",
-		"watch:heroku": "onchange 'src/*' 'src/*/*' 'src/*/*/*' 'src/*/*/*/*' -v -- haxe build_all.hxml & nodemon bin/heroku/index.js --ignore bin/heroku/_data/ --ignore bin/heroku/private/db/ & livereload bin/heroku -w 1000",
-		"watch:haxe": "onchange 'src/*' 'src/*/*' 'src/*/*/*' 'src/*/*/*/*' -v -- haxe build_all.hxml",
-
-		"build": "npm run build:release",
-		"build:release": "haxe build_all.hxml",
-		"heroku:folder": "cd 'bin/heroku'",
-
-		"deploy": "npm run build && npm run git:commit && npm run git:push && npm run launch",
-		"git:commit": "cd 'bin/heroku' && git add -A . && git commit -a -m 'update heroku'",
-		"git:push": "cd 'bin/heroku' && git push heroku master",
-
-		"push": "npm run push:git && npm run push:heroku",
-		"push:git": "cd 'bin/heroku' && git push --tags origin HEAD:master",
-		"push:heroku": "cd 'bin/heroku' && git push heroku master",
-
-		"launch": "open https://fonk-slack-thumb.herokuapp.com/",
-		"start": "npm run build && cd 'bin/heroku' && heroku local web",
-		"start:old": "npm run build && open http://localhost:5000 &&  cd 'bin/heroku' && heroku local web",
-		"start:new": "npm run build && open http://localhost:5000 && cd 'bin/heroku' && node index.js"
-	},
-	"dependencies": {},
-	"devDependencies": {
-		"livereload": "^0.6.0",
-		"nodemon": "^1.13.3",
-		"onchange": "^3.0.2"
-	}
+  "license": "MIT",
+  "name": "skeletor",
+  "version": "0.0.1",
+  "description": "Quick way to make a Heroku server (Skeletor)",
+  "private": true,
+  "author": "Matthijs Kamstra aka [mck]",
+  "scripts": {
+    "prewatch": "haxe build_all.hxml",
+    "watch": "npm run watch:heroku",
+    "watch:heroku": "onchange 'src/*' 'src/*/*' 'src/*/*/*' 'src/*/*/*/*' -v -- haxe build_all.hxml & nodemon bin/heroku/index.js --ignore bin/heroku/_data/ --ignore bin/heroku/private/db/ & livereload bin/heroku -w 1000",
+    "watch:haxe": "onchange 'src/*' 'src/*/*' 'src/*/*/*' 'src/*/*/*/*' -v -- haxe build_all.hxml",
+    "build": "npm run build:release",
+    "build:release": "haxe build_all.hxml",
+    "heroku:folder": "cd 'bin/heroku'",
+    "deploy": "npm run build && npm run git:commit && npm run git:push && npm run launch",
+    "git:commit": "cd 'bin/heroku' && git add -A . && git commit -a -m 'update heroku'",
+    "git:push": "cd 'bin/heroku' && git push heroku master",
+    "push": "npm run push:git && npm run push:heroku",
+    "push:git": "cd 'bin/heroku' && git push --tags origin HEAD:master",
+    "push:heroku": "cd 'bin/heroku' && git push heroku master",
+    "launch": "open https://fonk-slack-thumb.herokuapp.com/",
+    "start": "npm run build && cd 'bin/heroku' && heroku local web",
+    "start:old": "npm run build && open http://localhost:5000 &&  cd 'bin/heroku' && heroku local web",
+    "start:new": "npm run build && open http://localhost:5000 && cd 'bin/heroku' && node index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "livereload": "latest",
+    "node-sass": "latest",
+    "nodemon": "latest",
+    "onchange": "latest"
+  }
 }

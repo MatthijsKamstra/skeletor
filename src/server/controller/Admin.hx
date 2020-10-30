@@ -6,21 +6,21 @@ import js.npm.express.Request;
 import js.npm.express.Response;
 
 class UserObj {
-	public function new(name,pass,role) {
+	public function new(name, pass, role) {
 		this.name = name;
 		this.pass = pass;
 		this.role = role;
-		this.key = haxe.crypto.Md5.encode(name+pass);
-		this.createdAt =  Date.now().toString();
+		this.key = haxe.crypto.Md5.encode(name + pass);
+		this.createdAt = Date.now().toString();
 	}
 
 	// Easy way to generate a v4 UUID:
-    public var id(default, null) : String = HaxeLow.uuid();
-	public var role : UserRoles;
-	public var name : String;
-	public var pass : String;
-	public var key : String;
-	public var createdAt : String;
+	public var id(default, null):String = HaxeLow.uuid();
+	public var role:UserRoles;
+	public var name:String;
+	public var pass:String;
+	public var key:String;
+	public var createdAt:String;
 }
 
 @:enum abstract UserRoles(String) {
@@ -30,36 +30,37 @@ class UserObj {
 }
 
 class Admin {
-
-	public function new () {
+	public function new() {
 		// your code
 	}
 
-	public static function init(?req,?res){
-
+	public static function init(?req, ?res) {
 		var filename = Node.__dirname + '/private/db/users.json';
-		var db : HaxeLow = new HaxeLow(filename);
+		var db:HaxeLow = new HaxeLow(filename);
 		var arr = db.idCol(UserObj);
 
 		var userObjArr = [
-			new UserObj('matthijs-user','user123', UserRoles.User),
-			new UserObj('matthijs-super','super123', UserRoles.Super),
-			new UserObj('matthijs-admin','admin123', UserRoles.Admin)
+			new UserObj('matthijs-user', 'user123', UserRoles.User),
+			new UserObj('matthijs-super', 'super123', UserRoles.Super),
+			new UserObj('matthijs-admin', 'admin123', UserRoles.Admin)
 		];
 
-		for (newUserObj in userObjArr){
+		for (newUserObj in userObjArr) {
 			var o = newUserObj;
 			var isAlreadyUser = false;
-			for (userObj in arr){
+			for (userObj in arr) {
 				// trace( 'userObj: ' + userObj );
-				var obj : UserObj = userObj;
-				if(o.key == obj.key) isAlreadyUser = true;
+				var obj:UserObj = userObj;
+				if (o.key == obj.key)
+					isAlreadyUser = true;
 			}
-			if(!isAlreadyUser) arr.idInsert(o);
+			if (!isAlreadyUser)
+				arr.idInsert(o);
 		}
 		db.save();
 
-		if(res != null) res.send('{}');
+		if (res != null)
+			res.send('{}');
 	}
 
 	public static function getUsers() {
@@ -68,12 +69,12 @@ class Admin {
 		var db = new HaxeLow(filename);
 		var arr = db.idCol(UserObj);
 		var io = MainHeroku.io;
-		io.sockets.emit('admin:users:set', {ok:true, data:arr});
+		io.sockets.emit('admin:users:set', {ok: true, data: arr});
 		// haxe.Timer.delay(function (){
 		// }, 3000);
 	}
 
-	public static function users(req:Request,res:Response) {
+	public static function users(req:Request, res:Response) {
 		// res.send('api: ${App.BUILD}');
 		// var _url = Node.__dirname +  '/private/api_id.json';
 		// res.send(Fs.readFileSync(_url, "utf8"));
@@ -81,14 +82,14 @@ class Admin {
 		// getUsers();
 
 		// is just a guess
-		haxe.Timer.delay(function (){
+		haxe.Timer.delay(function() {
 			getUsers();
 		}, 1000);
 
 		// admin:users:get
 	}
 
-	public static function start(req:Request,res:Response) {
+	public static function start(req:Request, res:Response) {
 		// res.send('api: ${App.BUILD}');
 		// var _url = Node.__dirname +  '/private/api_id.json';
 		// res.send(Fs.readFileSync(_url, "utf8"));
@@ -97,5 +98,4 @@ class Admin {
 
 		// admin:users:get
 	}
-
 }
