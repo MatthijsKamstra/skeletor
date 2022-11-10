@@ -21,7 +21,7 @@
 		"express-session": "^1.15.6",
 		"graceful-fs": "^4.1.11",
 		"morgan": "^1.9.0",
-		"request": "^2.83.0",
+		"request": "^2.88.2",
 		"serve-favicon": "^2.4.5",
 		"socket.io": "^2.4.0",
 		"steno": "^0.4.4"
